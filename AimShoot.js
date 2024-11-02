@@ -16,5 +16,5 @@ var AimShoot = function ()
         mouseX = event.ClientX();
         mouseY = event.ClientY();
         console.log(mouseX + " " + mouseY);
-    }
+    },
  }
