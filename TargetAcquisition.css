@@ -36,8 +36,8 @@ body {
     -o-transition: opacity 5s;
     transition: opacity 5s;
  
-    /*opacity: 0;*/
-    /*display: none;*/ /*game is revealed by default*/
+    opacity: 0;
+    display: none;
  }
           
  #score {
