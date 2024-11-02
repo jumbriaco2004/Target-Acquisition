@@ -29,6 +29,7 @@ body {
  
  #game-canvas {
     border: 1.5px solid blue;
+    background-color: black;
  
     -webkit-transition: opacity 5s;
     -moz-transition: opacity 5s;
@@ -36,7 +37,7 @@ body {
     transition: opacity 5s;
  
     opacity: 0;
-    display: none;
+    /*display: none;*/ /*game is revealed by default*/
  }
           
  #score {
