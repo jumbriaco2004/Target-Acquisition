@@ -10,9 +10,31 @@
   </head>
   <body>
     <main>
- 
+      <div id='arena'> <!-- All of this div is copied from SnailBait -GC -->
+        <!-- fps....................................................-->
+        <div id='fps'></div>
+
+        <!-- Toast..................................................-->
+
+        <div id='toast'></div>
+
+        <!-- Loading screen........................................-->
+
+        <div id='loading'>
+           <div id='loading-title'>Loading...</div>
+           <img id='loading-animated-gif'/> <!-- no src attribute -->
+        </div>
+           
+        <!-- The game canvas........................................-->
+
+        <canvas id='game-canvas' width='800' height='400'>
+           Your browser does not support HTML5 Canvas.
+        </canvas>
+      </div>
     </main>
     
+    <script src='AimShoot.js'></script>
     <script src="TargetAcquisition.js"></script>
+    
   </body>
 </html>
