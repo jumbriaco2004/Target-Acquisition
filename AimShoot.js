@@ -5,12 +5,12 @@
 console.log("AimShoot.js called");
 var AimShoot = function ()  
 {
-   
+   this.debugText = document.getElementById("debug");
 };
  
  AimShoot.prototype = 
  {
-    trackMouse: function (event) 
+    trackMouse: function (event)
     {
       console.log("trackMouse called");
         mouseX = event.ClientX();

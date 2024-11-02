@@ -5,10 +5,11 @@ var TargetAcquisition = function ()
     this.context = this.canvas.getContext('2d'),
     this.fpsElement = document.getElementById('fps'),
     this.toastElement = document.getElementById('toast');
-
+   
+    this.timeSystem = new TimeSystem();
     this.aimShoot = new AimShoot();
 }
-//mouseMoved = new MouseEvent("click"); //https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/MouseEvent
+
 TargetAcquisition.prototype = 
 {
     animate: function (now) { 
@@ -31,12 +32,13 @@ TargetAcquisition.prototype =
            requestNextAnimationFrame(targetAcquisition.animate);
         }
      },
-    startGame: function () {
-  
+
+     startGame: function () {
         //this.timeSystem.start();
         //this.setTimeRate(0.25);
   
         //this.gameStarted = true;
+        //aimShoot.trackMouse(window.onmousemove());
   
         requestNextAnimationFrame(this.animate);
      }
@@ -47,3 +49,4 @@ TargetAcquisition.prototype =
 
 // Launch game.........................................................
 var targetAcquisition = new TargetAcquisition();
+targetAcquisition.startGame();
