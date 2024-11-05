@@ -29,7 +29,6 @@ body {
  
  #game-canvas {
     border: 1.5px solid blue;
-    background-color: black;
  
     -webkit-transition: opacity 5s;
     -moz-transition: opacity 5s;
@@ -239,4 +238,4 @@ body {
     opacity: 0;
     display: none;
  }
- 
+ /* End of snailbait CSS */
