@@ -29,10 +29,23 @@ function initializeImages() //pretty much ripped from snailbait
 
    function drawGame()
    {
+      //Level ----------
       context.drawImage(background, 0, 0); //background drawn
-      //draw level here
-      context.drawImage(playerImage, 20, 520);
-      //draw other stuff here
+
+      //Player ----------
+
+      //Scale the player image down
+      const playerImageScale = 0.2;
+      const playerWidth = playerImage.width * playerImageScale;
+      const playerHeight = playerImage.height * playerImageScale;
+
+      // Center the player image on the canvas
+      const playerX = 0;
+      const playerY = ((canvas.height - playerHeight) / 2) + 300;
+
+      context.drawImage(playerImage, playerX, playerY, playerWidth, playerHeight);
+
+
    }
 }
 
