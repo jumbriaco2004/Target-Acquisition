@@ -2,53 +2,70 @@
 all files. This file should be like the initializeImages and startGame()
 functions in snailBait, super concise, not too much code.
 */
-var TargetAcquisition = function() //Constructor
-{
-   this.canvas = document.getElementById('game-canvas'),
-   this.context = this.canvas.getContext('2d'),
 
-   this.spritesheet = new Image(),
-   this.background = new Image(), //background image of the canvas, not the webpage. The webpage background is done in the CSS file
-   this.playerImage = new Image();
+var canvas = document.getElementById('game-canvas'),
+context = canvas.getContext('2d'),
+
+background = new Image(), //background image of canvas, not the webpage. The webpage background is done in the CSS file
+playerImage = new Image();
+
+mouseX = canvas.width / 2,
+mouseY = canvas.height / 2;
+
+initializeImages();
+
+function debug(stringText) //updates the debug element with a value given
+{
+   document.getElementById('debug').innerHTML = stringText;
 }
 
-
-
-TargetAcquisition.prototype =
+function initializeImages() //pretty much ripped from snailbait
 {
-   debug: function(stringText) 
-   /* Updates the debug element with a value given, best for supervising quickly updated values into the game 
-      will only show the last called debug functions value */
-   { document.getElementById('debug').innerHTML = stringText; },
+   background.src = "images/background_sprite.png";
+   playerImage.src = "images/player_sprite.png";
+
+   background.onload = function (e) 
+   { 
+      drawGame();
+      //debug("yes");
+   };
+
+   //Track mouse position
+   canvas.addEventListener('mousemove', function(event) {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = event.clientX - rect.left;
+      mouseY = event.clientY - rect.top;
+      drawGame(); // Redraw game each time the mouse moves
+   });
+
+   function drawGame() {
+      // Draw background
+      context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+      context.drawImage(background, 0, 0, canvas.width, canvas.height);
    
+      // Scale player image down
+      const playerImageScale = 0.2;
+      const playerWidth = playerImage.width * playerImageScale;
+      const playerHeight = playerImage.height * playerImageScale;
    
+      // Position player in the bottom-left corner
+      const playerX = 0;
+      const playerY = canvas.height - playerHeight;
+   
+      // Calculate rotation angle
+      const angle = calculateAngleToMouse(playerX + playerWidth / 2, playerY + playerHeight / 2);
+   
+      // Rotate and draw player image
+      context.save();
+      context.translate(playerX + playerWidth / 2, playerY + playerHeight / 2)
+      context.rotate(angle);
+      context.drawImage(playerImage, -playerWidth / 2, -playerHeight / 2, playerWidth, playerHeight);
+      context.restore();
+   }
 
-   initializeImages: function ()
-   /* Sets the background and the images to certain urls in order to initialize the value of every image used
-      If any images are added, they should probably be initialized here */
-   {
-      this.spritesheet.src = "images/SpriteSheet.png";
-      this.background.src = "images/background_sprite.png";
-      this.playerImage.src = "images/player_sprite.png";
+   //Function to calculate angle between player and mouse
+   function calculateAngleToMouse(playerX, playerY) {
+      return Math.atan2(mouseY - playerY, mouseX - playerX) - Math.PI / 2; // Adjust for top-facing image
+   }
+}
 
-      this.background.onload = function (e) //after everything is defined
-      {
-         targetAcquisition.debug("Background loaded");
-         targetAcquisition.drawGame();
-      }
-   },
-
-   drawGame: function ()
-   /* Draws the game every frame, my need updated to have a drawSprites or Draw(whatever) sub-functions later */
-   {
-      this.debug("drawGame Called");
-      this.context.drawImage(this.background, 0, 0); //background drawn
-      //draw level here
-      this.context.drawImage(this.playerImage, 20, 520);
-      //draw other stuff here
-   },
-}  
-
-var targetAcquisition = new TargetAcquisition();
-
-targetAcquisition.initializeImages();
