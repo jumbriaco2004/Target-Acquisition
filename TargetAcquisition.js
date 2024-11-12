@@ -4,17 +4,17 @@ functions in snailBait, super concise, not too much code.
 */
 var TargetAcquisition = function () //Constructor
 {
+   // Canvas
    this.canvas = document.getElementById('game-canvas'),
    this.context = this.canvas.getContext('2d'),
 
+   // Images
    this.spritesheet = new Image(),
    this.background = new Image(), /*background image of this.canvas, not the webpage. 
                                     The webpage background is done in the CSS file*/
    this.playerImage = new Image();
-   
 
-
-   //Player Properties
+   // Player Properties
    this.playerImageScale = 0.8, // Scales player image down. || Changed the value a bit since I lowered the size of the playerimage itself -GC
    this.playerWidth = this.playerImage.width * this.playerImageScale,
    this.playerHeight = this.playerImage.height * this.playerImageScale,
@@ -32,6 +32,8 @@ TargetAcquisition.prototype =
    { document.getElementById('debug').innerHTML = stringText; },
 
    initializeImages: function ()
+   /* Sets the background and the images to certain urls in order to initialize the value of every image used
+      If any images are added, they should probably be initialized here */
    {
       this.spritesheet.src = "images/SpriteSheet.png";
       this.background.src = "images/background_sprite.png";
@@ -50,16 +52,8 @@ TargetAcquisition.prototype =
    },
 
    drawGame: function () 
+   /* Draws the game every frame, my need updated to have a drawSprites or Draw(whatever) sub-functions later */
    {
-      //Track mouse position
-      targetAcquisition.canvas.addEventListener('mousemove', function(event) 
-      {
-         rect = targetAcquisition.canvas.getBoundingClientRect(),
-         targetAcquisition.mouseX = event.clientX - rect.left;
-         targetAcquisition.mouseY = event.clientY - rect.top;
-         targetAcquisition.drawGame(); // Redraw game each time the mouse moves 
-                                       // (^^^should probably change this sometime down the line for performance -GC)
-      });
       // Draw background
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear this.canvas
       this.context.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
@@ -73,13 +67,21 @@ TargetAcquisition.prototype =
       this.context.rotate(angle);
       this.context.drawImage(this.playerImage, -this.playerWidth / 2, -this.playerHeight / 2, this.playerWidth, this.playerHeight);
       this.context.restore();
+      
+      
    },
-
-
 }
-
-
 
 var targetAcquisition = new TargetAcquisition();
 
 targetAcquisition.initializeImages();
+//Track mouse position
+targetAcquisition.canvas.addEventListener('mousemove', function(event) 
+{
+   console.log("Mouse Detected");
+   rect = targetAcquisition.canvas.getBoundingClientRect(),
+   targetAcquisition.mouseX = event.clientX - rect.left;
+   targetAcquisition.mouseY = event.clientY - rect.top;
+   targetAcquisition.drawGame(); // Redraw game each time the mouse moves 
+                                 // (^^^Should probably change this sometime down the line for performance -GC)
+});
