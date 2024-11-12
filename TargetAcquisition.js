@@ -1,7 +1,7 @@
-/*basic file for basic game loop, and initialization of variables used across 
-all files. This file should be like the initializeImages and startGame()
-functions in snailBait, super concise, not too much code.
-*/
+/*Basic file for basic game loop, and initialization of variables used across 
+  all files. This file should be like the initializeImages and startGame()
+  functions in snailBait, super concise, not too much code.
+  */
 var TargetAcquisition = function () //Constructor
 {
    // Canvas
@@ -10,16 +10,17 @@ var TargetAcquisition = function () //Constructor
 
    // Images
    this.spritesheet = new Image(),
-   this.background = new Image(), /*background image of this.canvas, not the webpage. 
-                                    The webpage background is done in the CSS file*/
-   this.playerImage = new Image();
+   
+   this.background = new Image(), //background image of this.canvas, not the webpage. 
+   this.playerImage = new Image(),//  The webpage background is done in the CSS file
+   
 
    // Player Properties
-   this.playerImageScale = 0.8, // Scales player image down. || Changed the value a bit since I lowered the size of the playerimage itself -GC
-   this.playerWidth = this.playerImage.width * this.playerImageScale,
-   this.playerHeight = this.playerImage.height * this.playerImageScale,
+   this.playerImageScale = 0.2, // Scales player image down. || Changed the value a bit since I lowered the size of the playerimage itself -GC
+   this.playerWidth = 3508 * this.playerImageScale,   // Size hard coded since it can't figure out the size until the image is loaded first, 
+   this.playerHeight = 2480 * this.playerImageScale,  // which doesn't really work with the format of the code -GC
    this.mouseX = this.canvas.width / 2,
-   this.mouseY = this.canvas.height / 2;
+   this.mouseY = this.canvas.height / 2,
    this.playerX = 0,     // Position player in the bottom-left corner
    this.playerY = this.canvas.height - this.playerHeight;
 }
@@ -41,7 +42,7 @@ TargetAcquisition.prototype =
 
       this.background.onload = function (e) 
       {  
-         targetAcquisition.debug("Background loaded");
+         //targetAcquisition.debug("Background loaded");
          targetAcquisition.drawGame();
       };
    },
@@ -65,20 +66,20 @@ TargetAcquisition.prototype =
       this.context.save();
       this.context.translate(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2)
       this.context.rotate(angle);
-      this.context.drawImage(this.playerImage, -this.playerWidth / 2, -this.playerHeight / 2, this.playerWidth, this.playerHeight);
+      this.context.drawImage(this.playerImage, -this.playerWidth / 2, -this.playerHeight / 2, this.playerWidth, this.playerHeight); 
       this.context.restore();
-      
-      
    },
 }
 
 var targetAcquisition = new TargetAcquisition();
 
 targetAcquisition.initializeImages();
-//Track mouse position
+
 targetAcquisition.canvas.addEventListener('mousemove', function(event) 
+/* Track mouse position || All of the aiming should probably be moved to AimShoot.js at some point, 
+   with the eventlistener being the only thing left for aiming and shooting in this file -GC */
 {
-   console.log("Mouse Detected");
+   console.log("Mouse Moved to: " + targetAcquisition.mouseX + ", " + targetAcquisition.mouseY); //prints mouse x and y
    rect = targetAcquisition.canvas.getBoundingClientRect(),
    targetAcquisition.mouseX = event.clientX - rect.left;
    targetAcquisition.mouseY = event.clientY - rect.top;
