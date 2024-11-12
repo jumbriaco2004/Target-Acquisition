@@ -2,70 +2,84 @@
 all files. This file should be like the initializeImages and startGame()
 functions in snailBait, super concise, not too much code.
 */
-
-var canvas = document.getElementById('game-canvas'),
-context = canvas.getContext('2d'),
-
-background = new Image(), //background image of canvas, not the webpage. The webpage background is done in the CSS file
-playerImage = new Image();
-
-mouseX = canvas.width / 2,
-mouseY = canvas.height / 2;
-
-initializeImages();
-
-function debug(stringText) //updates the debug element with a value given
+var TargetAcquisition = function () //Constructor
 {
-   document.getElementById('debug').innerHTML = stringText;
+   this.canvas = document.getElementById('game-canvas'),
+   this.context = this.canvas.getContext('2d'),
+
+   this.spritesheet = new Image(),
+   this.background = new Image(), /*background image of this.canvas, not the webpage. 
+                                    The webpage background is done in the CSS file*/
+   this.playerImage = new Image();
+   
+
+
+   //Player Properties
+   this.playerImageScale = 0.8, // Scales player image down. || Changed the value a bit since I lowered the size of the playerimage itself -GC
+   this.playerWidth = this.playerImage.width * this.playerImageScale,
+   this.playerHeight = this.playerImage.height * this.playerImageScale,
+   this.mouseX = this.canvas.width / 2,
+   this.mouseY = this.canvas.height / 2;
+   this.playerX = 0,     // Position player in the bottom-left corner
+   this.playerY = this.canvas.height - this.playerHeight;
 }
 
-function initializeImages() //pretty much ripped from snailbait
+TargetAcquisition.prototype =
 {
-   background.src = "images/background_sprite.png";
-   playerImage.src = "images/player_sprite.png";
+   debug: function(stringText)
+   /* Updates the debug element with a value given, best for supervising quickly updated values 
+      into the game, will only show the last called debug functions value */ 
+   { document.getElementById('debug').innerHTML = stringText; },
 
-   background.onload = function (e) 
-   { 
-      drawGame();
-      //debug("yes");
-   };
+   initializeImages: function ()
+   {
+      this.spritesheet.src = "images/SpriteSheet.png";
+      this.background.src = "images/background_sprite.png";
+      this.playerImage.src = "images/player_sprite.png";
 
-   //Track mouse position
-   canvas.addEventListener('mousemove', function(event) {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = event.clientX - rect.left;
-      mouseY = event.clientY - rect.top;
-      drawGame(); // Redraw game each time the mouse moves
-   });
+      this.background.onload = function (e) 
+      {  
+         targetAcquisition.debug("Background loaded");
+         targetAcquisition.drawGame();
+      };
+   },
+   
+   calculateAngleToMouse: function (playerX, playerY) //Function to calculate angle between player and mouse
+   {
+      return Math.atan2(this.mouseY - playerY, this.mouseX - playerX) - Math.PI / 2; // Adjust for top-facing image
+   },
 
-   function drawGame() {
+   drawGame: function () 
+   {
+      //Track mouse position
+      targetAcquisition.canvas.addEventListener('mousemove', function(event) 
+      {
+         rect = targetAcquisition.canvas.getBoundingClientRect(),
+         targetAcquisition.mouseX = event.clientX - rect.left;
+         targetAcquisition.mouseY = event.clientY - rect.top;
+         targetAcquisition.drawGame(); // Redraw game each time the mouse moves 
+                                       // (^^^should probably change this sometime down the line for performance -GC)
+      });
       // Draw background
-      context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-      context.drawImage(background, 0, 0, canvas.width, canvas.height);
-   
-      // Scale player image down
-      const playerImageScale = 0.2;
-      const playerWidth = playerImage.width * playerImageScale;
-      const playerHeight = playerImage.height * playerImageScale;
-   
-      // Position player in the bottom-left corner
-      const playerX = 0;
-      const playerY = canvas.height - playerHeight;
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear this.canvas
+      this.context.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
    
       // Calculate rotation angle
-      const angle = calculateAngleToMouse(playerX + playerWidth / 2, playerY + playerHeight / 2);
+      const angle = this.calculateAngleToMouse(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2);
    
       // Rotate and draw player image
-      context.save();
-      context.translate(playerX + playerWidth / 2, playerY + playerHeight / 2)
-      context.rotate(angle);
-      context.drawImage(playerImage, -playerWidth / 2, -playerHeight / 2, playerWidth, playerHeight);
-      context.restore();
-   }
+      this.context.save();
+      this.context.translate(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2)
+      this.context.rotate(angle);
+      this.context.drawImage(this.playerImage, -this.playerWidth / 2, -this.playerHeight / 2, this.playerWidth, this.playerHeight);
+      this.context.restore();
+   },
 
-   //Function to calculate angle between player and mouse
-   function calculateAngleToMouse(playerX, playerY) {
-      return Math.atan2(mouseY - playerY, mouseX - playerX) - Math.PI / 2; // Adjust for top-facing image
-   }
+
 }
 
+
+
+var targetAcquisition = new TargetAcquisition();
+
+targetAcquisition.initializeImages();
