@@ -1,28 +1,14 @@
-C:\Users\gavin\Desktop\College\2DGameFdtns\Project\Project4\Target-Acquisition\index.html
-C:\Users\gavin\Desktop\College\2DGameFdtns\Project\Project4\Target-Acquisition\index.html
+body 
+{
+    --outline: rgb(32, 32, 32); /*outline color of background, local variable to body*/
+   background-color: gray; /*fill color of backhround*/
+   
+   background-image:
+      -webkit-repeating-linear-gradient(90deg, var(--outline), var(--outline) 5px, transparent 5px, transparent 20%, transparent 5px, var(--outline) 5px),
+      -webkit-repeating-linear-gradient(0deg, var(--outline), var(--outline) 5px, transparent 5px, transparent 670px, transparent 5px, var(--outline) 5px);
 
-/* All css styling copied from chapter 11 snailbait for now -GC*/
-
-body {
-    /* Background from CSS3 Patterns Gallery by Anna Kassner */
- 
-    background-color: #999999;
-
- /* vVv Might want to change these to be a more fitting background pattern vVv -GC */
-/*    background-image: 
-       -webkit-repeating-linear-gradient(120deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px),
-       -webkit-repeating-linear-gradient(60deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px),
-       -webkit-linear-gradient(60deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1)),
-       -webkit-linear-gradient(120deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1));
- 
-    background-image:
-       repeating-linear-gradient(120deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px),
-       repeating-linear-gradient(60deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px),
-       linear-gradient(60deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1)),
-       linear-gradient(120deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1));
-*/
-    background-size: 70px 120px;
- }
+   background-size: 1280px 720px;
+}
  
  #arena {
     margin: 0 auto;
