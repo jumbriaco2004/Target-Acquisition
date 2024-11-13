@@ -14,6 +14,10 @@ var TargetAcquisition = function () //Constructor
    this.background = new Image(), //background image of this.canvas, not the webpage. 
    this.playerImage = new Image(),//  The webpage background is done in the CSS file
    
+   // Time'
+   this.lastAnimationFrameTime = 0,
+   this.lastFpsUpdateTime = 0,
+   this.fps = 60,
 
    // Player Properties
    this.playerImageScale = 0.2, // Scales player image down. || Changed the value a bit since I lowered the size of the playerimage itself -GC
@@ -30,7 +34,7 @@ TargetAcquisition.prototype =
    debug: function(stringText)
    /* Updates the debug element with a value given, best for supervising quickly updated values 
       into the game, will only show the last called debug functions value */ 
-   { document.getElementById('debug').innerHTML = stringText; },
+   {  document.getElementById('debug').innerHTML = stringText; },
 
    initializeImages: function ()
    /* Sets the background and the images to certain urls in order to initialize the value of every image used
@@ -44,8 +48,12 @@ TargetAcquisition.prototype =
       {  
          //targetAcquisition.debug("Background loaded");
          targetAcquisition.drawGame();
+         targetAcquisition.startGame();
       };
    },
+
+   startGame: function () 
+   {  requestNextAnimationFrame(this.animate); },
    
    calculateAngleToMouse: function (playerX, playerY) //Function to calculate angle between player and mouse
    {
@@ -69,6 +77,21 @@ TargetAcquisition.prototype =
       this.context.drawImage(this.playerImage, -this.playerWidth / 2, -this.playerHeight / 2, this.playerWidth, this.playerHeight); 
       this.context.restore();
    },
+
+   calculateFps: function (now) 
+   {
+      var fps = 1 / (now - this.lastAnimationFrameTime) * 1000;
+
+      lastAnimationFrameTime = now;
+      return fps;
+   },
+   
+   animate: function (now) 
+   {
+      fps = targetAcquisition.calculateFps(now);
+      targetAcquisition.drawGame(now);
+      requestNextAnimationFrame(targetAcquisition.animate);
+   },   
 }
 
 var targetAcquisition = new TargetAcquisition();
@@ -79,7 +102,7 @@ targetAcquisition.canvas.addEventListener('mousemove', function(event)
 /* Track mouse position || All of the aiming should probably be moved to AimShoot.js at some point, 
    with the eventlistener being the only thing left for aiming and shooting in this file -GC */
 {
-   console.log("Mouse Moved to: " + targetAcquisition.mouseX + ", " + targetAcquisition.mouseY); //prints mouse x and y
+   //console.log("Mouse Moved to: " + targetAcquisition.mouseX + ", " + targetAcquisition.mouseY); //prints mouse x and y
    rect = targetAcquisition.canvas.getBoundingClientRect(),
    targetAcquisition.mouseX = event.clientX - rect.left;
    targetAcquisition.mouseY = event.clientY - rect.top;
