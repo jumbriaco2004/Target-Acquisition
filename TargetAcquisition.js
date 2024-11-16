@@ -2,16 +2,14 @@
   all files. This file should be like the initializeImages and startGame()
   functions in snailBait, super concise, not too much code.
   */
+
+
 var TargetAcquisition = function () //Constructor
 {
-   // Canvas
-   this.canvas = document.getElementById('game-canvas'),
-   this.context = this.canvas.getContext('2d'),
-
    // Images
-   this.spritesheet = new Image(),
    
-   this.background = new Image(), // Background image of this.canvas, not the webpage. 
+   
+   this.background = new Image(), // Background image of canvas, not the webpage. 
    this.playerImage = new Image(),// The webpage background is done in the CSS file
    
    // Time
@@ -19,8 +17,8 @@ var TargetAcquisition = function () //Constructor
    this.lastFpsUpdateTime = 0,
    this.fps = 60,
 
-   this.mouseX = this.canvas.width / 2,
-   this.mouseY = this.canvas.height / 2;
+   this.mouseX = canvas.width / 2,
+   this.mouseY = canvas.height / 2;
 }
 
 TargetAcquisition.prototype =
@@ -34,7 +32,7 @@ TargetAcquisition.prototype =
    /* Sets the background and the images to certain urls in order to initialize the value of every image used
       If any images are added, they should probably be initialized here */
    {
-      this.spritesheet.src = "images/SpriteSheet.png";
+      spritesheet.src = "images/SpriteSheet.png";
       this.background.src = "images/background_sprite.png";
       this.playerImage.src = "images/player_sprite.png";
 
@@ -53,10 +51,11 @@ TargetAcquisition.prototype =
    /* Draws the game every frame, my need updated to have a drawSprites or Draw(whatever) sub-functions later */
    {
       // Draw background
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear this.canvas
-      this.context.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
+      context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+      context.drawImage(this.background, 0, 0, canvas.width, canvas.height);
 
       playerData.drawPlayer();
+      spriteData.drawWalls();
    },
 
    calculateFps: function (now) 
@@ -76,14 +75,15 @@ TargetAcquisition.prototype =
 }
 
 var targetAcquisition = new TargetAcquisition();
+var spriteData = new SpriteData();
 var playerData = new PlayerData();
 
 targetAcquisition.initializeImages();
 
-targetAcquisition.canvas.addEventListener('mousemove', function(event) 
+canvas.addEventListener('mousemove', function(event) 
 {
    //console.log("Mouse Moved to: " + targetAcquisition.mouseX + ", " + targetAcquisition.mouseY); //prints mouse x and y
-   rect = targetAcquisition.canvas.getBoundingClientRect(),
+   rect = canvas.getBoundingClientRect(),
    targetAcquisition.mouseX = event.clientX - rect.left;
    targetAcquisition.mouseY = event.clientY - rect.top;
    targetAcquisition.drawGame(); // Redraw game each time the mouse moves 

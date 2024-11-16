@@ -1,10 +1,7 @@
-/*This file is meant to hold all of the metadata for all of the sprites in the game
-  This includes the location of each sprite and the properties of each sprite,
-  along with any other data that is useful to each sprite 
+/*This file is meant to hold all of the metadata for the player
 */
 PlayerData = function()
 {
-  this.context = targetAcquisition.context,
   this.playerImageScale = 0.2, // Scales player image down.
   
   this.playerWidth = 3508 * this.playerImageScale,   // Size hard coded since it can't figure out the size until the image is loaded first, 
@@ -16,7 +13,7 @@ PlayerData = function()
   this.PLAYER_CELL_Y = 741,      //  <-]
 
   this.playerX = 0,
-  this.playerY = targetAcquisition.canvas.height - this.playerHeight;
+  this.playerY = canvas.height - this.playerHeight;
 };
 
 PlayerData.prototype =
@@ -34,13 +31,13 @@ PlayerData.prototype =
     const angle = this.calculateAngleToMouse(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2);
    
     // Rotate and draw player image
-    this.context.save();
-    this.context.translate(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2)
-    this.context.rotate(angle);
-    this.context.drawImage(targetAcquisition.playerImage, -this.playerWidth / 2, -this.playerHeight / 2, this.playerWidth, this.playerHeight); 
-    /*this.context.drawImage(targetAcquisition.spritesheet, this.PLAYER_CELL_X, this.PLAYER_CELL_Y,
+    context.save();
+    context.translate(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2)
+    context.rotate(angle);
+    context.drawImage(targetAcquisition.playerImage, -this.playerWidth / 2, -this.playerHeight / 2, this.playerWidth, this.playerHeight); 
+    /*this.context.drawImage(spritesheet, this.PLAYER_CELL_X, this.PLAYER_CELL_Y,
       this.PLAYER_CELL_WIDTH, this.PLAYER_CELL_HEIGHT = 684,
       this.playerX, this.playerY); */
-    this.context.restore();
+    context.restore();
   },
 }
