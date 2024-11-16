@@ -2,13 +2,8 @@
   This includes the location of each sprite and the properties of each sprite,
   along with any other data that is useful to each sprite 
 */
-// 84, 741 >> 781, 57 started at 9 =30
-// 
-//Canvas (needed for calculations in this file)
-
 PlayerData = function()
 {
-  //this.canvas = targetAcquisition.canvas,
   this.context = targetAcquisition.context,
   this.playerImageScale = 0.2, // Scales player image down.
   
@@ -31,7 +26,7 @@ PlayerData.prototype =
     return Math.atan2(targetAcquisition.mouseY - playerY, targetAcquisition.mouseX - playerX) - Math.PI / 2; // Adjust for top-facing image
   },
 
-  drawPlayer: function(playerImage)
+  drawPlayer: function()
   {
     //console.log("drawing player at: " + this.playerX + ", " + this.playerY);
     
@@ -42,7 +37,10 @@ PlayerData.prototype =
     this.context.save();
     this.context.translate(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2)
     this.context.rotate(angle);
-    this.context.drawImage(playerImage, -this.playerWidth / 2, -this.playerHeight / 2, this.playerWidth, this.playerHeight); 
+    this.context.drawImage(targetAcquisition.playerImage, -this.playerWidth / 2, -this.playerHeight / 2, this.playerWidth, this.playerHeight); 
+    /*this.context.drawImage(targetAcquisition.spritesheet, this.PLAYER_CELL_X, this.PLAYER_CELL_Y,
+      this.PLAYER_CELL_WIDTH, this.PLAYER_CELL_HEIGHT = 684,
+      this.playerX, this.playerY); */
     this.context.restore();
   },
 }

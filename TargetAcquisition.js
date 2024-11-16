@@ -56,7 +56,7 @@ TargetAcquisition.prototype =
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear this.canvas
       this.context.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
 
-      playerData.drawPlayer(targetAcquisition.playerImage);
+      playerData.drawPlayer();
    },
 
    calculateFps: function (now) 
