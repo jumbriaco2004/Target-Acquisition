@@ -11,22 +11,16 @@ var TargetAcquisition = function () //Constructor
    // Images
    this.spritesheet = new Image(),
    
-   this.background = new Image(), //background image of this.canvas, not the webpage. 
-   this.playerImage = new Image(),//  The webpage background is done in the CSS file
+   this.background = new Image(), // Background image of this.canvas, not the webpage. 
+   this.playerImage = new Image(),// The webpage background is done in the CSS file
    
-   // Time'
+   // Time
    this.lastAnimationFrameTime = 0,
    this.lastFpsUpdateTime = 0,
    this.fps = 60,
 
-   // Player Properties
-   this.playerImageScale = 0.2, // Scales player image down. || Changed the value a bit since I lowered the size of the playerimage itself -GC
-   this.playerWidth = 3508 * this.playerImageScale,   // Size hard coded since it can't figure out the size until the image is loaded first, 
-   this.playerHeight = 2480 * this.playerImageScale,  // which doesn't really work with the format of the code -GC
    this.mouseX = this.canvas.width / 2,
-   this.mouseY = this.canvas.height / 2,
-   this.playerX = 0,     // Position player in the bottom-left corner
-   this.playerY = this.canvas.height - this.playerHeight;
+   this.mouseY = this.canvas.height / 2;
 }
 
 TargetAcquisition.prototype =
@@ -54,11 +48,6 @@ TargetAcquisition.prototype =
 
    startGame: function () 
    {  requestNextAnimationFrame(this.animate); },
-   
-   calculateAngleToMouse: function (playerX, playerY) //Function to calculate angle between player and mouse
-   {
-      return Math.atan2(this.mouseY - playerY, this.mouseX - playerX) - Math.PI / 2; // Adjust for top-facing image
-   },
 
    drawGame: function () 
    /* Draws the game every frame, my need updated to have a drawSprites or Draw(whatever) sub-functions later */
@@ -66,16 +55,8 @@ TargetAcquisition.prototype =
       // Draw background
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear this.canvas
       this.context.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
-   
-      // Calculate rotation angle
-      const angle = this.calculateAngleToMouse(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2);
-   
-      // Rotate and draw player image
-      this.context.save();
-      this.context.translate(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2)
-      this.context.rotate(angle);
-      this.context.drawImage(this.playerImage, -this.playerWidth / 2, -this.playerHeight / 2, this.playerWidth, this.playerHeight); 
-      this.context.restore();
+
+      playerData.drawPlayer(targetAcquisition.playerImage);
    },
 
    calculateFps: function (now) 
@@ -95,17 +76,16 @@ TargetAcquisition.prototype =
 }
 
 var targetAcquisition = new TargetAcquisition();
+var playerData = new PlayerData();
 
 targetAcquisition.initializeImages();
 
 targetAcquisition.canvas.addEventListener('mousemove', function(event) 
-/* Track mouse position || All of the aiming should probably be moved to AimShoot.js at some point, 
-   with the eventlistener being the only thing left for aiming and shooting in this file -GC */
 {
    //console.log("Mouse Moved to: " + targetAcquisition.mouseX + ", " + targetAcquisition.mouseY); //prints mouse x and y
    rect = targetAcquisition.canvas.getBoundingClientRect(),
    targetAcquisition.mouseX = event.clientX - rect.left;
    targetAcquisition.mouseY = event.clientY - rect.top;
    targetAcquisition.drawGame(); // Redraw game each time the mouse moves 
-                                 // (^^^Should probably change this sometime down the line for performance -GC)
 });
+
