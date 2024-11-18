@@ -13,6 +13,7 @@ SpriteData = function()
         {x: 1400, y: 500, width: 600, height: this.wallThick}, // horizontal wall
     ];
     
+    this.spritesheet = new Image();
 }
 
 SpriteData.prototype =
@@ -42,5 +43,11 @@ SpriteData.prototype =
         
         //context.fillRect(100,100,50,20);
         context.restore();
+    },
+
+    initializeImages: function()
+    {
+        //Get spritesheet
+        this.spritesheet.src = "../images/SpriteSheet.png";
     }
 }

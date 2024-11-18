@@ -2,7 +2,6 @@
 */
 PlayerData = function()
 {
-  this.spritesheet = new Image(),
   this.playerImageScale = 0.2, // Scales player image down.
   
   this.playerWidth = 3508 * this.playerImageScale,   // Size hard coded since it can't figure out the size until the image is loaded first, 
@@ -41,10 +40,4 @@ PlayerData.prototype =
       this.playerX, this.playerY); */
     context.restore();
   },
-
-  initializeImages: function()
-  {
-    //Get spritesheet
-    this.spritesheet.src = "../images/SpriteSheet.png";
-  }
 }
