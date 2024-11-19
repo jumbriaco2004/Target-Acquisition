@@ -18,18 +18,11 @@ PlayerData = function()
 
 PlayerData.prototype =
 {
-  calculateAngleToMouse: function (playerX, playerY) //Function to calculate angle between player and mouse
-  {
-    return Math.atan2(targetAcquisition.mouseY - playerY, targetAcquisition.mouseX - playerX) - Math.PI / 2; // Adjust for top-facing image
-  },
-
   drawPlayer: function()
   {
+    const angle = targetAcquisition.aimSystem.getRotationAngle();
     //console.log("drawing player at: " + this.playerX + ", " + this.playerY);
-    
-    // Calculate rotation angle
-    const angle = this.calculateAngleToMouse(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2);
-   
+     
     // Rotate and draw player image
     context.save();
     context.translate(this.playerX + this.playerWidth / 2, this.playerY + this.playerHeight / 2)

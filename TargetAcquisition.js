@@ -19,6 +19,8 @@ var TargetAcquisition = function () //Constructor
 
    this.mouseX = canvas.width / 2,
    this.mouseY = canvas.height / 2;
+
+   this.aimSystem = new AimSystem();
 }
 
 TargetAcquisition.prototype =
@@ -45,7 +47,7 @@ TargetAcquisition.prototype =
    },
 
    startGame: function () 
-   {  requestNextAnimationFrame(this.animate); },
+   {  requestNextAnimationFrame(this.animate.bind(this)); },
 
    drawGame: function () 
    /* Draws the game every frame, my need updated to have a drawSprites or Draw(whatever) sub-functions later */
@@ -53,9 +55,27 @@ TargetAcquisition.prototype =
       // Draw background
       context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
       context.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+  
+      const playerX = playerData.playerX;
+      const playerY = playerData.playerY;
 
-      playerData.drawPlayer();
+      const rotationAngle = this.aimSystem.getRotationAngle();
+      this.drawRotatedPlayer(playerX, playerY, rotationAngle);
+
       spriteData.drawWalls();
+   },
+
+   drawRotatedPlayer: function (x, y, angle) {
+      const playerWidth = this.playerImage.width * 0.2;
+      const playerHeight = this.playerImage.height * 0.2;
+     
+      context.save();
+      context.translate(x + playerWidth / 2, y + playerHeight / 2);
+      context.rotate(angle);
+      context.drawImage(this.playerImage, -playerWidth / 2, -playerHeight / 2, playerWidth, playerHeight);
+      context.restore();
+      
+      //console.log('Rotation angle: ', angle);
    },
 
    calculateFps: function (now) 
@@ -68,9 +88,18 @@ TargetAcquisition.prototype =
    
    animate: function (now) 
    {
-      fps = targetAcquisition.calculateFps(now);
-      targetAcquisition.drawGame(now);
-      requestNextAnimationFrame(targetAcquisition.animate);
+      fps = targetAcquisition.calculateFps(now); // Calculate FPS
+      targetAcquisition.drawGame(now);           // Redraw the game
+
+      this.aimSystem.updateRotation();           //Update Roation System
+
+      // Reference playerX and playerY from playerData
+      const playerX = playerData.playerX;
+      const playerY = playerData.playerY;
+      const rotationAngle = this.aimSystem.getRotationAngle(); 
+      this.drawRotatedPlayer(playerX, playerY, rotationAngle);
+
+      requestNextAnimationFrame(this.animate.bind(this));
    },   
 }
 
@@ -80,12 +109,19 @@ var playerData = new PlayerData();
 
 targetAcquisition.initializeImages();
 
-canvas.addEventListener('mousemove', function(event) 
-{
-   //console.log("Mouse Moved to: " + targetAcquisition.mouseX + ", " + targetAcquisition.mouseY); //prints mouse x and y
-   rect = canvas.getBoundingClientRect(),
-   targetAcquisition.mouseX = event.clientX - rect.left;
-   targetAcquisition.mouseY = event.clientY - rect.top;
-   targetAcquisition.drawGame(); // Redraw game each time the mouse moves 
+document.addEventListener('keydown', function (event) {
+   if (event.key === 'q') {
+       console.log('Q pressed');
+       targetAcquisition.aimSystem.startRotation('counterclockwise');
+   }
+   if (event.key === 'e') {
+       console.log('E pressed');
+       targetAcquisition.aimSystem.startRotation('clockwise');
+   }
 });
 
+document.addEventListener('keyup', function (event) {
+   if (event.key === 'q' || event.key === 'e') {
+       targetAcquisition.aimSystem.stopRotation();
+   }
+});
