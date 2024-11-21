@@ -11,6 +11,7 @@ var TargetAcquisition = function () //Constructor
    
    this.background = new Image(), // Background image of canvas, not the webpage. 
    this.playerImage = new Image(),// The webpage background is done in the CSS file
+   this.bombImage = new Image(), // Image of bomb spawned by the player
    
    // Time
    this.lastAnimationFrameTime = 0,
@@ -21,6 +22,7 @@ var TargetAcquisition = function () //Constructor
    this.mouseY = canvas.height / 2;
 
    this.aimSystem = new AimSystem();
+   this.shootSystem = new ShootSystem();
 }
 
 TargetAcquisition.prototype =
@@ -37,6 +39,7 @@ TargetAcquisition.prototype =
       spritesheet.src = "images/SpriteSheet.png";
       this.background.src = "images/background_sprite.png";
       this.playerImage.src = "images/player_sprite.png";
+      this.bombImage.src = "images/bomb_sprite.png";
 
       this.background.onload = function (e) 
       {  
@@ -63,6 +66,8 @@ TargetAcquisition.prototype =
       this.drawRotatedPlayer(playerX, playerY, rotationAngle);
 
       spriteData.drawWalls();
+
+      this.shootSystem.drawBomb(context);
    },
 
    drawRotatedPlayer: function (x, y, angle) {
@@ -123,5 +128,18 @@ document.addEventListener('keydown', function (event) {
 document.addEventListener('keyup', function (event) {
    if (event.key === 'q' || event.key === 'e') {
        targetAcquisition.aimSystem.stopRotation();
+   }
+});
+
+//Press spacebar to spawn a bomb
+document.addEventListener('keydown', function (event) {
+   if (event.key === ' ') {
+       const playerX = playerData.playerX;
+       const playerY = playerData.playerY;
+       const playerWidth = targetAcquisition.playerImage.width * 0.2;
+       const playerHeight = targetAcquisition.playerImage.height * 0.2;
+       const rotationAngle = targetAcquisition.aimSystem.getRotationAngle();
+
+       targetAcquisition.shootSystem.spawnBomb(playerX, playerY, playerWidth, playerHeight, rotationAngle, targetAcquisition.bombImage);
    }
 });
