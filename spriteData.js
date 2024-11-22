@@ -4,13 +4,18 @@ SpriteData = function()
     this.wallThick = 15;
     this.walls_1 = //level 1's walls
     [
-        {x: 0, y: 200, width: 500, height: this.wallThick}, // horizontal wall
-        {x: 500, y: 200, width: this.wallThick, height: 300}, // vertical wall
-        {x: 500, y: 500, width: 515, height: this.wallThick}, // horizontal wall
-        {x: 1000, y: 500, width: this.wallThick, height: -400}, // vertical wall
-        {x: 1000, y: 100, width: 415, height: this.wallThick}, // horizontal wall
-        {x: 1400, y: 100, width: this.wallThick, height: 400}, // vertical wall
-        {x: 1400, y: 500, width: 600, height: this.wallThick}, // horizontal wall
+        {x: 0,    y: 200},
+        {x: 500,  y: 200}, 
+        {x: 500,  y: 500},
+        {x: 1000, y: 500}, 
+        {x: 1000, y: 100},
+        {x: 1400, y: 100}, 
+        {x: 1400, y: 500},
+        {x: 3000, y: 500},
+        {x: 3000, y: 800},
+        {x: 1400, y: 800},
+        {x: 1200, y: 1000},
+        {x: 0,    y: 1000},
     ];
     
     this.spritesheet = new Image();
@@ -28,20 +33,32 @@ SpriteData.prototype =
         }
     },
 
-    drawWalls: function()
+    drawWalls: function(levelNum)
     //Draws a wall, and defines the wall as a sprite
     {
         context.save();
         context.fillStyle = "black";
-        //context.beginPath;
-        for (var i=0; i < this.walls_1.length; ++i) 
+        context.beginPath();
+        context.strokeStyle = "black";
+        context.lineWidth = this.wallThick;
+        if (levelNum === 1)
         {
-            context.fillRect(this.walls_1[i].x, this.walls_1[i].y, this.walls_1[i].width, this.walls_1[i].height)
+            for (var i=0; i < this.walls_1.length; ++i) 
+            {
+                context.lineTo(this.walls_1[i].x, this.walls_1[i].y);
+                context.stroke();
+            }
+            
+            
+            
+            
+            
+
+
         }
         this.drawDebugGrid("red");
         
         
-        //context.fillRect(100,100,50,20);
         context.restore();
     },
 

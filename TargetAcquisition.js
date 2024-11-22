@@ -65,7 +65,7 @@ TargetAcquisition.prototype =
       const rotationAngle = this.aimSystem.getRotationAngle();
       this.drawRotatedPlayer(playerX, playerY, rotationAngle);
 
-      spriteData.drawWalls();
+      spriteData.drawWalls(1); //number references which level to draw
 
       this.shootSystem.drawBomb(context);
    },
