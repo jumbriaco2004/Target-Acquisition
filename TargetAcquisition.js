@@ -96,7 +96,7 @@ TargetAcquisition.prototype =
       fps = targetAcquisition.calculateFps(now); // Calculate FPS
       targetAcquisition.drawGame(now);           // Redraw the game
 
-      this.aimSystem.updateRotation();           //Update Roation System
+      this.aimSystem.updateRotation();           //Update Rotation System
 
       // Reference playerX and playerY from playerData
       const playerX = playerData.playerX;
