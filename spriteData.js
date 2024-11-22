@@ -1,5 +1,5 @@
 /*This file is meant to contain all of the data about every sprite other than the player */
-SpriteData = function()
+var SpriteData = function()
 {
     this.wallThick = 15;
     this.walls_1 = //level 1's walls
@@ -23,7 +23,7 @@ SpriteData = function()
 
 SpriteData.prototype =
 {
-    drawDebugGrid: function(color) //helps with building levels
+    drawDebugGrid: function(color) // Helps with building levels
     {
         context.fillStyle = color;
         for (var i=0; i < canvas.width; i = i + 100) 
@@ -33,8 +33,7 @@ SpriteData.prototype =
         }
     },
 
-    drawWalls: function(levelNum)
-    //Draws a wall, and defines the wall as a sprite
+    drawWalls: function(levelNum) //Draws a wall, and defines the wall as a sprite
     {
         context.save();
         context.fillStyle = "black";
@@ -48,17 +47,8 @@ SpriteData.prototype =
                 context.lineTo(this.walls_1[i].x, this.walls_1[i].y);
                 context.stroke();
             }
-            
-            
-            
-            
-            
-
-
         }
         this.drawDebugGrid("red");
-        
-        
         context.restore();
     },
 
@@ -67,4 +57,14 @@ SpriteData.prototype =
         //Get spritesheet
         this.spritesheet.src = "../images/SpriteSheet.png";
     }
+}
+
+var Projectile = function() // Projectile constructor
+{
+
+}
+
+Projectile.prototype = 
+{
+    
 }
