@@ -46,10 +46,9 @@ SpriteData.prototype =
         y2 = y2;
         w1 = x2 - x1;
         h1 = y2 - y1;
-        context.lineWidth = 1;
         if ((w1 !== 0 && h1 !== 0)) //different code needs written for this part
         {
-            
+
             //context.fillStyle = "yellow"; 
             //context.fillRect(x1, y1, w1, h1);
         }
@@ -65,8 +64,8 @@ SpriteData.prototype =
     {
         context.save();
         context.beginPath();
-        //context.strokeStyle = "black";
-        //context.lineWidth = this.wallThick;
+        context.strokeStyle = "black";
+        context.lineWidth = this.wallThick;
         if (levelNum == 1)
         {
             for (var i=1; i < this.walls_1.length; ++i) 
@@ -76,7 +75,6 @@ SpriteData.prototype =
                     this.walls_1[(i - 1)].y, 
                     this.walls_1[i].x, 
                     this.walls_1[i].y);
-                context.lineWidth = this.wallThick - 10;
                 context.lineTo(this.walls_1[i].x, this.walls_1[i].y);
                 context.stroke();
             }
