@@ -46,7 +46,11 @@ SpriteData.prototype =
         y2 = y2;
         w1 = x2 - x1;
         h1 = y2 - y1;
-        if ((w1 !== 0 && h1 !== 0)) //different code needs written for this part
+
+        //console.log(context.isPointInPath(x1, x2));
+        //console.log(context.isPointInPath(y1, y2));
+
+        /*if ((w1 !== 0 && h1 !== 0)) //different code needs written for this part
         {
 
             //context.fillStyle = "yellow"; 
@@ -57,7 +61,7 @@ SpriteData.prototype =
 
             //context.fillStyle = "yellow";
             //context.fillRect(x1, y1, w1, h1);
-        } 
+        } */
     },
 
     drawWalls: function(levelNum) //Draws a wall, and defines the wall as a sprite
