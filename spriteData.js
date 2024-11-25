@@ -38,30 +38,50 @@ SpriteData.prototype =
         }
     },
 
-    didCollide: function(x1, y1, x2, y2)
+    canCollide: function(mouseX, mouseY)
     {
-        x1 = x1;
-        y1 = y1;
-        x2 = x2;
-        y2 = y2;
-        w1 = x2 - x1;
-        h1 = y2 - y1;
-
-        //console.log(context.isPointInPath(x1, x2));
-        //console.log(context.isPointInPath(y1, y2));
-
-        /*if ((w1 !== 0 && h1 !== 0)) //different code needs written for this part
-        {
-
-            //context.fillStyle = "yellow"; 
-            //context.fillRect(x1, y1, w1, h1);
+        //console.log(mouseY);
+        for (var i=1; i < this.walls_1.length; ++i) 
+            {
+                
+        if ((this.walls_1[i].x - mouseX < 100) && (this.walls_1[i].y - mouseY < 100))
+            {
+                //console.log(this.walls_1[i].x - mouseX);
+                return true;
+            }
+        else { return false; }
         }
-        else // This part should work though
-        {
+    },
 
-            //context.fillStyle = "yellow";
-            //context.fillRect(x1, y1, w1, h1);
-        } */
+    didCollide: function(shotPrevX, shotPrevY, shotX, shotY, wallPrevX, wallPrevY, wallX, wallY)
+    {
+        let intersectPt = {x: 0, y: 0};
+        //w1 = wallX - shotX;
+        //h1 = wallY - shotY;
+
+        shotSlope = this.findSlope(shotPrevX, shotPrevY, shotX, shotY);
+        wallSlope = this.findSlope(wallPrevX, wallPrevY, wallX, wallY);
+
+        shotYInt = this.findYInt(shotX, shotY, shotSlope);
+        wallYInt = this.findYInt(wallX, wallY, wallSlope);
+
+        intersectPt.x = (wallYInt - shotYInt) / (shotSlope - wallSlope);
+        intersectPt.y = (shotSlope * intersectPt.x) + shotYInt;
+        return this.intersectPt.x > wallPrevX &&
+               this.intersectPt.x < wallX;
+    },
+    
+
+    findSlope: function(x1, y1, x2, y2)
+    {
+        let slope = (y2 - y1) / (x2 - x1);
+        return slope;
+    },
+
+    findYInt: function(x, y, m)
+    {
+        let b = y - (m*x);
+        return b;
     },
 
     drawWalls: function(levelNum) //Draws a wall, and defines the wall as a sprite
@@ -74,13 +94,23 @@ SpriteData.prototype =
         {
             for (var i=1; i < this.walls_1.length; ++i) 
             {
-                this.didCollide(
-                    this.walls_1[(i - 1)].x, 
-                    this.walls_1[(i - 1)].y, 
-                    this.walls_1[i].x, 
-                    this.walls_1[i].y);
                 context.lineTo(this.walls_1[i].x, this.walls_1[i].y);
                 context.stroke();
+
+                if (this.canCollide(this.walls_1[i].x, this.walls_1[i].y))
+                {
+                    /*this.didCollide(
+                        previous x of shot,
+                        previous y of shot,
+                        shot x,
+                        shot y,
+                        this.walls_1[i - 1].x,
+                        this.walls_1[i - 1].y,
+                        this.walls_1[i].x, 
+                        this.walls_1[i].y);
+                    */
+                }
+                
             }
             
         }
@@ -114,3 +144,4 @@ Projectile.prototype =
 {
     
 }
+

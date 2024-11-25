@@ -18,9 +18,6 @@ var TargetAcquisition = function () //Constructor
    this.lastFpsUpdateTime = 0,
    this.fps = 60,
 
-   this.mouseX = canvas.width / 2,
-   this.mouseY = canvas.height / 2;
-
    this.aimSystem = new AimSystem();
    this.shootSystem = new ShootSystem();
 }
@@ -43,14 +40,15 @@ TargetAcquisition.prototype =
 
       this.background.onload = function (e) 
       {  
-         //targetAcquisition.debug("Background loaded");
          targetAcquisition.drawGame();
          targetAcquisition.startGame();
       };
    },
 
    startGame: function () 
-   {  requestNextAnimationFrame(this.animate.bind(this)); },
+   {  
+      requestNextAnimationFrame(this.animate.bind(this)); 
+   },
 
    drawGame: function () 
    /* Draws the game every frame, my need updated to have a drawSprites or Draw(whatever) sub-functions later */
