@@ -106,10 +106,17 @@ TargetAcquisition.prototype =
 
       requestNextAnimationFrame(this.animate.bind(this));
    },   
+
+   getLevelNumber: function()
+   {
+      return this.levelNum;
+   },
+
    setLevelNumber: function(newNum)
    {
       this.levelNum = newNum;
-   }
+   },
+   
 }
 
 var targetAcquisition = new TargetAcquisition();

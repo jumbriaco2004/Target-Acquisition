@@ -50,14 +50,13 @@ SpriteData.prototype =
     canCollide: function(mouseX, mouseY, levelNum)
     {
         //console.log(mouseY);
-        for (var i=1; i < this.walls.length; ++i) 
-            {
-                
-        if ((this.walls[levelNum][i].x - mouseX < 100) && (this.walls[levelNum][i].y - mouseY < 100))
-            {
-                //console.log(this.walls[i].x - mouseX);
-                return true;
-            }
+        for (var i=0; i < this.walls.length; ++i) 
+        {
+            if ((this.walls[levelNum][i].x - mouseX < 100) && (this.walls[levelNum][i].y - mouseY < 100))
+                {
+                    //console.log(this.walls[i].x - mouseX);
+                    return true;
+                }
         else { return false; }
         }
     },
@@ -120,8 +119,8 @@ SpriteData.prototype =
                 context.lineTo(this.walls[levelNum][i].x, this.walls[levelNum][i].y);
                 context.stroke();
             }
-            /*if (this.canCollide(this.walls[levelNum][i][j], this.walls[levelNum][i][j], levelNum))
-            {
+            if (this.canCollide(this.walls[levelNum][i].x, this.walls[levelNum][i].y, levelNum))
+            {/*
                 this.didCollide(
                     previous x of shot,
                     previous y of shot,
@@ -131,8 +130,8 @@ SpriteData.prototype =
                     this.walls[i - 1].y,
                     this.walls[i].x, 
                     this.walls[i].y);
-                
-            }   */
+                */
+            }   
         }
         if (this.debugGridOption == true)
             { this.drawDebugGrid("red"); }
