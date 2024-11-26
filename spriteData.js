@@ -4,24 +4,25 @@
 */
 var SpriteData = function()
 {
-    this.debugGridOption = false;
+    this.debugGridOption = true;
     this.wallThick = 15; // Wall thickness
 
-    this.walls_1 = // Level 1's walls
+    this.walls = 
     [
-        {x: 0,    y: 200},
-        {x: 0,    y: 200},  {x: 500,  y: 200}, 
-        {x: 500,  y: 500},  {x: 1000, y: 500}, 
-        {x: 1000, y: 100},  {x: 1400, y: 100}, 
-        {x: 1400, y: 500},  {x: 3000, y: 500},
-        {x: 3000, y: 800},  {x: 1400, y: 800},
-        {x: 1200, y: 1000}, {x: 0,    y: 1000},
-    ];
-
-    this.walls_2 = // Level 2's walls
-    [
-        {x: 0, y: 0},
-    ];
+        [   // Level 1
+            {x: 0,    y: 200},
+            {x: 0,    y: 200},  {x: 500,  y: 200}, 
+            {x: 500,  y: 500},  {x: 1000, y: 500}, 
+            {x: 1000, y: 100},  {x: 1400, y: 100}, 
+            {x: 1400, y: 500},  {x: 3000, y: 500},
+            {x: 3000, y: 800},  {x: 1400, y: 800},
+            {x: 1200, y: 1000}, {x: 0,    y: 1000},
+        ],
+        [   // Level 2
+            {x: 0,    y: 400},  {x: 500,    y: 400}, 
+            {x: 500,    y: 300}, {x: 500, y: 300},
+        ]
+];
 
     this.spritesheet = new Image();
 }
@@ -38,15 +39,15 @@ SpriteData.prototype =
         }
     },
 
-    canCollide: function(mouseX, mouseY)
+    canCollide: function(mouseX, mouseY, levelNum)
     {
         //console.log(mouseY);
-        for (var i=1; i < this.walls_1.length; ++i) 
+        for (var i=1; i < this.walls.length; ++i) 
             {
                 
-        if ((this.walls_1[i].x - mouseX < 100) && (this.walls_1[i].y - mouseY < 100))
+        if ((this.walls[levelNum][i].x - mouseX < 100) && (this.walls[levelNum][i].y - mouseY < 100))
             {
-                //console.log(this.walls_1[i].x - mouseX);
+                //console.log(this.walls[i].x - mouseX);
                 return true;
             }
         else { return false; }
@@ -90,37 +91,25 @@ SpriteData.prototype =
         context.beginPath();
         context.strokeStyle = "black";
         context.lineWidth = this.wallThick;
-        if (levelNum == 1)
+        console.log(this.walls[levelNum].length);
+        for (var i=0; i < this.walls[levelNum].length; ++i) // for each coordinate set
         {
-            for (var i=1; i < this.walls_1.length; ++i) 
+            context.lineTo(this.walls[levelNum][i].x, this.walls[levelNum][i].y);
+            console.log(this.walls[levelNum][i].x)
+            context.stroke();
+            /*if (this.canCollide(this.walls[levelNum][i][j], this.walls[levelNum][i][j], levelNum))
             {
-                context.lineTo(this.walls_1[i].x, this.walls_1[i].y);
-                context.stroke();
-
-                if (this.canCollide(this.walls_1[i].x, this.walls_1[i].y))
-                {
-                    /*this.didCollide(
-                        previous x of shot,
-                        previous y of shot,
-                        shot x,
-                        shot y,
-                        this.walls_1[i - 1].x,
-                        this.walls_1[i - 1].y,
-                        this.walls_1[i].x, 
-                        this.walls_1[i].y);
-                    */
-                }
+                this.didCollide(
+                    previous x of shot,
+                    previous y of shot,
+                    shot x,
+                    shot y,
+                    this.walls[i - 1].x,
+                    this.walls[i - 1].y,
+                    this.walls[i].x, 
+                    this.walls[i].y);
                 
-            }
-            
-        }
-        else if (levelNum === 2)
-        {
-            for (var i=0; i < this.walls_2.length; ++i) 
-                {
-                    context.lineTo(this.walls_1[i].x, this.walls_1[i].y);
-                    context.stroke();
-                }
+            }   */
         }
         if (this.debugGridOption == true)
             { this.drawDebugGrid("red"); }

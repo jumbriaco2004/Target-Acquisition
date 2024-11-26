@@ -20,6 +20,8 @@ var TargetAcquisition = function () //Constructor
 
    this.aimSystem = new AimSystem();
    this.shootSystem = new ShootSystem();
+
+   this.levelNum = 0;
 }
 
 TargetAcquisition.prototype =
@@ -63,7 +65,7 @@ TargetAcquisition.prototype =
       const rotationAngle = this.aimSystem.getRotationAngle();
       this.drawRotatedPlayer(playerX, playerY, rotationAngle);
 
-      spriteData.drawWalls(1); //number references which level to draw
+      spriteData.drawWalls(this.levelNum); //number references which level to draw
 
       this.shootSystem.drawBomb(context);
    },
@@ -104,6 +106,10 @@ TargetAcquisition.prototype =
 
       requestNextAnimationFrame(this.animate.bind(this));
    },   
+   setLevelNumber: function(newNum)
+   {
+      this.levelNum = newNum;
+   }
 }
 
 var targetAcquisition = new TargetAcquisition();
@@ -120,6 +126,16 @@ document.addEventListener('keydown', function (event) {
    if (event.key === 'e') {
        console.log('E pressed');
        targetAcquisition.aimSystem.startRotation('clockwise');
+   }
+   if (event.key === '1') //changes levels for debugging, REMOVE LATER
+   {
+      console.log('1 pressed');
+      targetAcquisition.setLevelNumber(0);
+   }
+  if (event.key === '2') 
+   {
+      console.log('2 pressed');
+      targetAcquisition.setLevelNumber(1);
    }
 });
 
