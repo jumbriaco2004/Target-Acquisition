@@ -10,7 +10,6 @@ var SpriteData = function()
     this.walls = 
     [
         [   // Level 1
-            {x: 0,    y: 200},
             {x: 0,    y: 200},  {x: 500,  y: 200}, 
             {x: 500,  y: 500},  {x: 1000, y: 500}, 
             {x: 1000, y: 100},  {x: 1400, y: 100}, 
@@ -20,7 +19,16 @@ var SpriteData = function()
         ],
         [   // Level 2
             {x: 0,    y: 400},  {x: 500,    y: 400}, 
-            {x: 500,    y: 300}, {x: 500, y: 300},
+            {x: 500,  y: 300},  
+            {x: 900,  y: 0, skip: true},                         // Skip stroke / pen up
+            {x: 900,  y: 400},
+            {x: 1400, y: 400}, 
+            {x: 900,  y: 400, rx: 500, ry: 200, rot: 0, sA: 0,   // ellipse
+                eA: -Math.PI/2, ellipse: true}, 
+            {x: canvas.width, y: 600, skip: true},
+            {x: 1700,    y: 600},
+            {x: canvas.width, y: 800, skip: true},
+            {x: 1700,    y: 800},
         ]
 ];
 
@@ -91,12 +99,27 @@ SpriteData.prototype =
         context.beginPath();
         context.strokeStyle = "black";
         context.lineWidth = this.wallThick;
-        console.log(this.walls[levelNum].length);
         for (var i=0; i < this.walls[levelNum].length; ++i) // for each coordinate set
         {
-            context.lineTo(this.walls[levelNum][i].x, this.walls[levelNum][i].y);
-            console.log(this.walls[levelNum][i].x)
-            context.stroke();
+            if (this.walls[levelNum][i].skip == true)
+            {
+                context.moveTo(this.walls[levelNum][i].x, this.walls[levelNum][i].y);
+            }
+
+            if (this.walls[levelNum][i].ellipse) //if the wall coords have a ellipse in it
+            {
+                context.ellipse(
+                    this.walls[levelNum][i].x,  this.walls[levelNum][i].y,
+                    this.walls[levelNum][i].rx, this.walls[levelNum][i].ry, this.walls[levelNum][i].rot, 
+                    this.walls[levelNum][i].sA, this.walls[levelNum][i].eA, true // <-- clockwise bool
+                )
+                context.stroke();
+            }
+            else
+            {
+                context.lineTo(this.walls[levelNum][i].x, this.walls[levelNum][i].y);
+                context.stroke();
+            }
             /*if (this.canCollide(this.walls[levelNum][i][j], this.walls[levelNum][i][j], levelNum))
             {
                 this.didCollide(
