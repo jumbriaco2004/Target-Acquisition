@@ -1,23 +1,23 @@
-var ShootSystem = function () //Constructor
+var ShootSystem = function () // Constructor
 {
     this.bombX = 0;             //x coordinate of the bomb
-    this.bombY = 0;             //y coordinate of the bomb
+    this.bombY = 0;             //y coordinate of the bombgi
     this.bombImage = null;      //Image for the bomb
     this.bombIsActive = false;  //is the bomb active
 };
 
 ShootSystem.prototype = {
     spawnBomb: function (playerX, playerY, playerWidth, playerHeight, rotationAngle, bombImage) {
-        // Player's center position
+        // Player center position
         const centerX = playerX + playerWidth / 2;
         const centerY = playerY + playerHeight / 2;
     
-        // Local offset for the top-center of the player sprite
+        // Local offset of the player sprite
         const offsetX = 0;
         const offsetY = -playerHeight / 2;
     
         // Adjust rotation angle
-        const adjustedAngle = rotationAngle - Math.PI / 2;
+        const adjustedAngle = rotationAngle - Math.PI / 2 - (35 * Math.PI / 180);
     
         // Apply rotation to the local offset
         const rotatedOffsetX = offsetX * Math.cos(adjustedAngle) - offsetY * Math.sin(adjustedAngle);
@@ -33,7 +33,7 @@ ShootSystem.prototype = {
         this.bombImage = bombImage;
         this.bombIsActive = true;
     
-        //debug logs 
+        // Debug logs
         console.log(`Player center: (${centerX}, ${centerY})`);
         console.log(`Offset Before Rotation: (${offsetX}, ${offsetY})`);
         console.log(`Adjusted Angle: ${adjustedAngle}`);
