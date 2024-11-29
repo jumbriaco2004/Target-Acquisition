@@ -35,7 +35,6 @@ ShootSystem.prototype = {
         this.bombImage = bombImage;
         this.bombIsActive = true;
 
-        //this.shotTimer = new Stopwatch();
         this.shotTimer.start();
 
         // Debug logs
@@ -67,14 +66,13 @@ ShootSystem.prototype = {
                 t = targetAcquisition.shootSystem.shotTimer.getElapsedTime(); // time
                 //console.log(t);
                 playerAngle = ((7 * Math.PI) / 4) - targetAcquisition.aimSystem.getRotationAngle(); // angle
-                console.log("Angle: " + playerAngle);
+                //console.log("Angle: " + playerAngle);
 
                 
                 this.bombX += Math.sin(playerAngle) * (t/30);
                 this.bombY += -Math.cos(playerAngle) * (-t/30);
-                console.log("x: " + this.bombX);
-                console.log("y: " + this.bombY);
-                
+                //console.log("x: " + this.bombX);
+                //console.log("y: " + this.bombY);
             }
 
         else

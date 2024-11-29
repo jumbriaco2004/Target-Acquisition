@@ -20,7 +20,7 @@ AimSystem.prototype =
     stopRotation: function () 
     {
         //console.log('Rotation stopped. Direction:', this.rotatingDirection);
-        //console.log(((5*Math.PI)/4) - this.getRotationAngle()); //angle that the shootSystem uses -GC
+        //console.log(((7 * Math.PI) / 4) - this.getRotationAngle()); // angle that the shootSystem uses -GC
         this.rotatingDirection = null;
     },
 
