@@ -62,16 +62,18 @@ ShootSystem.prototype = {
             //this.shotTimer.stop(now);
         
             //console.log(this.bombX);
-            if (this.bombX < canvas.width) // Until collides with border
+            if (this.bombX < canvas.width && this.bombY < canvas.height) // Until collides with border
             {
                 t = targetAcquisition.shootSystem.shotTimer.getElapsedTime(); // time
                 //console.log(t);
-                playerAngle = targetAcquisition.aimSystem.getRotationAngleDegrees(); // angle
-                //console.log(playerAngle);
+                playerAngle = ((7 * Math.PI) / 4) - targetAcquisition.aimSystem.getRotationAngle(); // angle
+                console.log("Angle: " + playerAngle);
 
                 
-                this.bombX += t;
-                this.bombY += -t;
+                this.bombX += Math.sin(playerAngle) * (t/30);
+                this.bombY += -Math.cos(playerAngle) * (-t/30);
+                console.log("x: " + this.bombX);
+                console.log("y: " + this.bombY);
                 
             }
 
