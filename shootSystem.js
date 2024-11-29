@@ -4,6 +4,8 @@ var ShootSystem = function () // Constructor
     this.bombY = 0;             //y coordinate of the bombgi
     this.bombImage = null;      //Image for the bomb
     this.bombIsActive = false;  //is the bomb active
+
+    this.shotTimer = new Stopwatch();  
 };
 
 ShootSystem.prototype = {
@@ -32,21 +34,51 @@ ShootSystem.prototype = {
         this.bombY = rotatedY;
         this.bombImage = bombImage;
         this.bombIsActive = true;
-    
+
+        //this.shotTimer = new Stopwatch();
+        this.shotTimer.start();
+
         // Debug logs
-        console.log(`Player center: (${centerX}, ${centerY})`);
-        console.log(`Offset Before Rotation: (${offsetX}, ${offsetY})`);
-        console.log(`Adjusted Angle: ${adjustedAngle}`);
-        console.log(`Rotated Offset: (${rotatedOffsetX}, ${rotatedOffsetY})`);
-        console.log(`Bomb Pos After Rotation: (${this.bombX}, ${this.bombY})`);
+        //console.log(`Player center: (${centerX}, ${centerY})`);
+        //console.log(`Offset Before Rotation: (${offsetX}, ${offsetY})`);
+        //console.log(`Adjusted Angle: ${adjustedAngle}`);
+        //console.log(`Rotated Offset: (${rotatedOffsetX}, ${rotatedOffsetY})`);
+        //console.log(`Bomb Pos After Rotation: (${this.bombX}, ${this.bombY})`);
     },
 
-    drawBomb: function (context) {
+    drawBomb: function (now) {
         if (this.bombIsActive && this.bombImage) {
             const bombWidth = this.bombImage.width * 0.1;
             const bombHeight = this.bombImage.height * 0.1;
 
             context.drawImage(this.bombImage, this.bombX - bombWidth / 2, this.bombY - bombHeight / 2, bombWidth, bombHeight);
         }
+    },
+
+    moveBomb: function (now)
+    {
+        if (this.bombIsActive && this.bombImage) 
+        {
+            //this.shotTimer.stop(now);
+        
+            //console.log(this.bombX);
+            if (this.bombX < canvas.width) // Until collides with border
+            {
+                t = targetAcquisition.shootSystem.shotTimer.getElapsedTime(); // time
+                //console.log(t);
+                playerAngle = targetAcquisition.aimSystem.getRotationAngleDegrees(); // angle
+                //console.log(playerAngle);
+
+                
+                this.bombX += t;
+                this.bombY += -t;
+                
+            }
+
+        else
+        {
+            targetAcquisition.shootSystem.shotTimer.stop();
+        }
     }
+    },
 };

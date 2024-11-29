@@ -36,9 +36,14 @@ AimSystem.prototype =
         this.rotationAngle = (this.rotationAngle + 2 * Math.PI) % (2 * Math.PI);
     },
 
-    getRotationAngle: function () 
+    getRotationAngle: function () //radians
     {
         return this.rotationAngle;
+    },
+
+    getRotationAngleDegrees: function () //degrees
+    {
+        return this.rotationAngle * (180 / Math.PI);
     },
 
 };

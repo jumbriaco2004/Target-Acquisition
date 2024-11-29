@@ -47,12 +47,12 @@ TargetAcquisition.prototype =
       };
    },
 
-   startGame: function () 
+   startGame: function ()
    {  
       requestNextAnimationFrame(this.animate.bind(this)); 
    },
 
-   drawGame: function () 
+   drawGame: function (now) 
    /* Draws the game every frame, my need updated to have a drawSprites or Draw(whatever) sub-functions later */
    {
       // Draw background
@@ -66,8 +66,10 @@ TargetAcquisition.prototype =
       this.drawRotatedPlayer(playerX, playerY, rotationAngle);
 
       spriteData.drawWalls(this.levelNum); //number references which level to draw
-
-      this.shootSystem.drawBomb(context);
+      this.shootSystem.drawBomb(now);
+      this.shootSystem.moveBomb(now);
+      
+      
    },
 
    drawRotatedPlayer: function (x, y, angle) {
