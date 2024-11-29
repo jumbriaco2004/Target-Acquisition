@@ -11,9 +11,22 @@
   
   <body>
     <main>
+      <div id="SplashScreen">
+        <h1 style="text-align: center;">Target Acquisition</h1>
+        <button onclick="document.getElementById('arena').style.display = 'block', document.getElementById('CreditScreen').style.display = 'none'">Start</button>
+        <button onclick="document.getElementById('CreditScreen').style.display = 'block'">Credits</button>
+      </div>
+
+      <div id="CreditScreen" style="display: none;">
+        <h1 style="text-align: center;">Credits</h1>
+        <p style="text-align: center;">Gavin Corder</p>
+        <p style="text-align: center;">Joseph Umbriaco</p>
+        <p style="text-align: center;">Kendall Simpson</p>
+      </div>
+
       <div id="debug"></div> <!-- debug div for testing -GC -->
-      <div style="text-align: center;"><span id="time">03:00</span></div>
-      <div id='arena'>
+      <div id='arena' style="display: none;">
+        <div style="text-align: center;"><span id="time">03:00</span></div>
 
         <div id='toast'></div>
 
@@ -37,7 +50,5 @@
      <script src="shootSystem.js"></script>
      <script src="gameTimer.js"></script>
      <script src="TargetAcquisition.js"></script>
-     
-    
   </body>
 </html>
