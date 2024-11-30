@@ -6,9 +6,11 @@ var ShootSystem = function () // Constructor
     this.bombIsActive = false;  //is the bomb active
 
     this.shotTimer = new Stopwatch();  
+    this.walls = [];
 };
 
-ShootSystem.prototype = {
+ShootSystem.prototype = 
+{
     spawnBomb: function (playerX, playerY, playerWidth, playerHeight, rotationAngle, bombImage) {
         // Player center position
         const centerX = playerX + playerWidth / 2;
@@ -69,16 +71,38 @@ ShootSystem.prototype = {
                 //console.log("Angle: " + playerAngle);
 
                 
-                this.bombX += Math.sin(playerAngle) * (t/30);
-                this.bombY += -Math.cos(playerAngle) * (-t/30);
+                this.bombX += Math.sin(playerAngle) * (t/60);
+                this.bombY += Math.cos(playerAngle) * (t/60);
                 //console.log("x: " + this.bombX);
                 //console.log("y: " + this.bombY);
+
+                context.save();
+                context.beginPath();
+                context.strokeStyle = "yellow";
+                context.moveTo(this.bombX, this.bombY);
+                context.lineTo(Math.sin(playerAngle) * (t*500), Math.cos(playerAngle) * (t*500)); //casts ray
+                context.stroke();
+                context.restore();
             }
 
-        else
+            else
+            {
+                targetAcquisition.shootSystem.shotTimer.stop();
+            }
+        }
+    },
+
+    canCollide: function(levelNum)
+    {
+        this.walls = spriteData.getWalls();
+        for (var i=0; i < this.walls.length; ++i) 
         {
-            targetAcquisition.shootSystem.shotTimer.stop();
+            if ((this.walls[levelNum][i].x - this.bombX < 100) && (this.walls[levelNum][i].y - this.bombY < 100))
+            {
+                console.log(this.walls[i].x - this.bombX);
+                return true;
+            }
+        else { return false; }
         }
     }
-    },
-};
+}

@@ -47,51 +47,6 @@ SpriteData.prototype =
         }
     },
 
-    canCollide: function(mouseX, mouseY, levelNum)
-    {
-        //console.log(mouseY);
-        for (var i=0; i < this.walls.length; ++i) 
-        {
-            if ((this.walls[levelNum][i].x - mouseX < 100) && (this.walls[levelNum][i].y - mouseY < 100))
-                {
-                    //console.log(this.walls[i].x - mouseX);
-                    return true;
-                }
-        else { return false; }
-        }
-    },
-
-    didCollide: function(shotPrevX, shotPrevY, shotX, shotY, wallPrevX, wallPrevY, wallX, wallY)
-    {
-        let intersectPt = {x: 0, y: 0};
-        //w1 = wallX - shotX;
-        //h1 = wallY - shotY;
-
-        shotSlope = this.findSlope(shotPrevX, shotPrevY, shotX, shotY);
-        wallSlope = this.findSlope(wallPrevX, wallPrevY, wallX, wallY);
-
-        shotYInt = this.findYInt(shotX, shotY, shotSlope);
-        wallYInt = this.findYInt(wallX, wallY, wallSlope);
-
-        intersectPt.x = (wallYInt - shotYInt) / (shotSlope - wallSlope);
-        intersectPt.y = (shotSlope * intersectPt.x) + shotYInt;
-        return this.intersectPt.x > wallPrevX &&
-               this.intersectPt.x < wallX;
-    },
-    
-
-    findSlope: function(x1, y1, x2, y2)
-    {
-        let slope = (y2 - y1) / (x2 - x1);
-        return slope;
-    },
-
-    findYInt: function(x, y, m)
-    {
-        let b = y - (m*x);
-        return b;
-    },
-
     drawWalls: function(levelNum) //Draws a wall, and defines the wall as a sprite
     {
         context.save();
@@ -119,7 +74,8 @@ SpriteData.prototype =
                 context.lineTo(this.walls[levelNum][i].x, this.walls[levelNum][i].y);
                 context.stroke();
             }
-            if (this.canCollide(this.walls[levelNum][i].x, this.walls[levelNum][i].y, levelNum))
+            
+            if (collideSystem.canCollide(this.walls[levelNum][i].x, this.walls[levelNum][i].y, levelNum))
             {/*
                 this.didCollide(
                     previous x of shot,
@@ -143,6 +99,11 @@ SpriteData.prototype =
     {
         //Get spritesheet
         this.spritesheet.src = "../images/SpriteSheet.png";
+    },
+
+    getWalls: function()
+    {
+        return this.walls;
     }
 }
 
