@@ -68,7 +68,6 @@ TargetAcquisition.prototype =
       spriteData.drawWalls(this.levelNum); //number references which level to draw
       this.shootSystem.drawBomb(now);
       this.shootSystem.moveBomb(now);
-      this.shootSystem.canCollide(this.levelNum);
       
    },
 
@@ -124,7 +123,6 @@ TargetAcquisition.prototype =
 var targetAcquisition = new TargetAcquisition();
 var spriteData = new SpriteData();
 var playerData = new PlayerData();
-var collideSystem = new CollideSystem();
 
 targetAcquisition.initializeImages();
 

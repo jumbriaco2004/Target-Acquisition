@@ -6,7 +6,6 @@ var ShootSystem = function () // Constructor
     this.bombIsActive = false;  //is the bomb active
 
     this.shotTimer = new Stopwatch();  
-    this.walls = [];
 };
 
 ShootSystem.prototype = 
@@ -58,7 +57,7 @@ ShootSystem.prototype =
 
     moveBomb: function (now)
     {
-        if (this.bombIsActive && this.bombImage) 
+        if (this.bombIsActive && this.bombImage && this.canCollide(targetAcquisition.getLevelNumber()) == false) 
         {
             //this.shotTimer.stop(now);
         
@@ -94,15 +93,59 @@ ShootSystem.prototype =
 
     canCollide: function(levelNum)
     {
-        this.walls = spriteData.getWalls();
-        for (var i=0; i < this.walls.length; ++i) 
+        for (var i=0; i < walls.length; ++i)
         {
-            if ((this.walls[levelNum][i].x - this.bombX < 100) && (this.walls[levelNum][i].y - this.bombY < 100))
-            {
-                console.log(this.walls[i].x - this.bombX);
-                return true;
-            }
+            console.log((walls[levelNum][i].x - this.bombX) + "   " + (walls[levelNum][i].y - this.bombY));
+            if ((walls[levelNum][i].x - this.bombX < 20) && (walls[levelNum][i].y - this.bombY < 20))
+                {
+                    //console.log(walls[i].x - this.bombX);
+                    return true;
+                }
+            if (this.canCollide(walls[levelNum][i].x, walls[levelNum][i].y, levelNum))
+            {/*
+                this.didCollide(
+                    previous x of shot,
+                    previous y of shot,
+                    shot x,
+                    shot y,
+                    walls[i - 1].x,
+                    walls[i - 1].y,
+                    walls[i].x, 
+                    walls[i].y);
+                */
+            }   
         else { return false; }
         }
-    }
+        
+    },
+
+    didCollide: function(shotPrevX, shotPrevY, shotX, shotY, wallPrevX, wallPrevY, wallX, wallY)
+    {
+        let intersectPt = {x: 0, y: 0};
+        //w1 = wallX - shotX;
+        //h1 = wallY - shotY;
+
+        shotSlope = this.findSlope(shotPrevX, shotPrevY, shotX, shotY);
+        wallSlope = this.findSlope(wallPrevX, wallPrevY, wallX, wallY);
+
+        shotYInt = this.findYInt(shotX, shotY, shotSlope);
+        wallYInt = this.findYInt(wallX, wallY, wallSlope);
+
+        intersectPt.x = (wallYInt - shotYInt) / (shotSlope - wallSlope);
+        intersectPt.y = (shotSlope * intersectPt.x) + shotYInt;
+        return this.intersectPt.x > wallPrevX &&
+               this.intersectPt.x < wallX;
+    },
+    
+    findSlope: function(x1, y1, x2, y2)
+    {
+        let slope = (y2 - y1) / (x2 - x1);
+        return slope;
+    },
+
+    findYInt: function(x, y, m)
+    {
+        let b = y - (m*x);
+        return b;
+    },
 }
