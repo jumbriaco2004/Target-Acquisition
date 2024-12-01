@@ -26,10 +26,7 @@ var TargetAcquisition = function () //Constructor
 
 TargetAcquisition.prototype =
 {
-   debug: function(stringText)
-   /* Updates the debug element with a value given, best for supervising quickly updated values 
-      into the game, will only show the last called debug functions value */ 
-   {  document.getElementById('debug').innerHTML = stringText; },
+  
 
    initializeImages: function ()
    /* Sets the background and the images to certain urls in order to initialize the value of every image used
@@ -128,11 +125,11 @@ targetAcquisition.initializeImages();
 
 document.addEventListener('keydown', function (event) {
    if (event.key === 'q') {
-       console.log('Q pressed');
+       //console.log('Q pressed');
        targetAcquisition.aimSystem.startRotation('counterclockwise');
    }
    if (event.key === 'e') {
-       console.log('E pressed');
+       //console.log('E pressed');
        targetAcquisition.aimSystem.startRotation('clockwise');
    }
    if (event.key === '1') //changes levels for debugging, REMOVE LATER

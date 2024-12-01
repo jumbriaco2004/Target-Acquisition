@@ -57,73 +57,81 @@ ShootSystem.prototype =
 
     moveBomb: function (now)
     {
-        if (this.bombIsActive && this.bombImage && this.canCollide(targetAcquisition.getLevelNumber()) == false) 
+        if (this.bombIsActive && this.bombImage) 
         {
-            //this.shotTimer.stop(now);
-        
-            //console.log(this.bombX);
-            if (this.bombX < canvas.width && this.bombY < canvas.height) // Until collides with border
+            if (this.bombX < canvas.width && this.bombY < canvas.height 
+                && this.bombX > 0 && this.bombY > 0) // Until collides with border
             {
                 t = targetAcquisition.shootSystem.shotTimer.getElapsedTime(); // time
                 //console.log(t);
-                playerAngle = ((7 * Math.PI) / 4) - targetAcquisition.aimSystem.getRotationAngle(); // angle
-                //console.log("Angle: " + playerAngle);
 
+                playerAngle = ((7 * Math.PI) / 4) - targetAcquisition.aimSystem.getRotationAngle(); // angle
+
+                //console.log("Angle: " + playerAngle);
+                shotPrevX = this.bombX;
+                shotPrevY = this.bombY;
                 
                 this.bombX += Math.sin(playerAngle) * (t/60);
                 this.bombY += Math.cos(playerAngle) * (t/60);
+
+                nextX = this.bombX + Math.sin(playerAngle) * (t*500);
+                nextY = this.bombY + Math.cos(playerAngle) * (t*500);
+                levelNum = targetAcquisition.getLevelNumber();
+
                 //console.log("x: " + this.bombX);
                 //console.log("y: " + this.bombY);
+                this.drawRay(this.bombX, this.bombY, nextX, nextY, 10, "yellow");
 
-                context.save();
-                context.beginPath();
-                context.strokeStyle = "yellow";
-                context.moveTo(this.bombX, this.bombY);
-                context.lineTo(Math.sin(playerAngle) * (t*500), Math.cos(playerAngle) * (t*500)); //casts ray
-                context.stroke();
-                context.restore();
+                for (i=1; i < walls[levelNum].length; ++i)
+                {
+                    if (this.didCollide
+                    (
+                        shotPrevX, shotPrevY, this.bombX, this.bombY,
+                        walls[levelNum][i - 1].x, walls[levelNum][i - 1].y,
+                        walls[levelNum][i].x, walls[levelNum][i].y
+                    ))
+                    {
+                        this.bombX = 100; this.bombY = 900;
+                        console.log("hit wall");
+                        targetAcquisition.shootSystem.shotTimer.stop();
+                        targetAcquisition.shootSystem.shotTimer.reset();
+                    }
+                }
             }
 
             else
             {
+                this.bombX = 100; this.bombY = 900;
+                console.log("hit border");
                 targetAcquisition.shootSystem.shotTimer.stop();
+                targetAcquisition.shootSystem.shotTimer.reset();
             }
         }
     },
 
-    canCollide: function(levelNum)
+    drawRay: function(x1, y1, x2, y2, rayWidth, rayColor)
     {
-        for (var i=0; i < walls.length; ++i)
-        {
-            console.log((walls[levelNum][i].x - this.bombX) + "   " + (walls[levelNum][i].y - this.bombY));
-            if ((walls[levelNum][i].x - this.bombX < 20) && (walls[levelNum][i].y - this.bombY < 20))
-                {
-                    //console.log(walls[i].x - this.bombX);
-                    return true;
-                }
-            if (this.canCollide(walls[levelNum][i].x, walls[levelNum][i].y, levelNum))
-            {/*
-                this.didCollide(
-                    previous x of shot,
-                    previous y of shot,
-                    shot x,
-                    shot y,
-                    walls[i - 1].x,
-                    walls[i - 1].y,
-                    walls[i].x, 
-                    walls[i].y);
-                */
-            }   
-        else { return false; }
-        }
+        context.save();
+        context.beginPath();
+        context.lineWidth = rayWidth;
+        context.strokeStyle = rayColor;
         
+        context.moveTo(x1, y1);
+        context.lineTo(x2, y2); // Draws ray
+        context.stroke();
+        context.restore();
     },
 
-    didCollide: function(shotPrevX, shotPrevY, shotX, shotY, wallPrevX, wallPrevY, wallX, wallY)
+    didCollide: function(shotPrevX, shotPrevY, shotX, shotY, 
+                         wallPrevX, wallPrevY, wallX, wallY)
     {
-        let intersectPt = {x: 0, y: 0};
+        let intersectPt = [0, 0];
         //w1 = wallX - shotX;
         //h1 = wallY - shotY;
+
+        
+        if (shotPrevX == shotX || shotPrevY == shotY)  
+            { return; }
 
         shotSlope = this.findSlope(shotPrevX, shotPrevY, shotX, shotY);
         wallSlope = this.findSlope(wallPrevX, wallPrevY, wallX, wallY);
@@ -131,10 +139,17 @@ ShootSystem.prototype =
         shotYInt = this.findYInt(shotX, shotY, shotSlope);
         wallYInt = this.findYInt(wallX, wallY, wallSlope);
 
-        intersectPt.x = (wallYInt - shotYInt) / (shotSlope - wallSlope);
-        intersectPt.y = (shotSlope * intersectPt.x) + shotYInt;
-        return this.intersectPt.x > wallPrevX &&
-               this.intersectPt.x < wallX;
+        intersectPt[0] = (wallYInt - shotYInt) / (shotSlope - wallSlope);
+        intersectPt[1] = (shotSlope * intersectPt[0]) + shotYInt;
+
+        //console.log(intersectPt[0] + ", " + intersectPt[1]);
+
+        this.drawRay(this.bombX, this.bombY, intersectPt[0], intersectPt[1], 5, "red"); // Bomb laser
+        this.drawRay(wallPrevX, wallPrevY, wallX, wallY, 10, "green");                  // Wall lines
+
+        //console.log(intersectPt[0] > wallPrevX && intersectPt[0] < wallX);
+        return (intersectPt[0] > wallPrevX &&
+               intersectPt[0] < wallX);
     },
     
     findSlope: function(x1, y1, x2, y2)

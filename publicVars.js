@@ -8,9 +8,9 @@ walls =
             {x: 0,    y: 200},  {x: 500,  y: 200}, 
             {x: 500,  y: 500},  {x: 1000, y: 500}, 
             {x: 1000, y: 100},  {x: 1400, y: 100}, 
-            {x: 1400, y: 500},  {x: 3000, y: 500},
-            {x: 3000, y: 800},  {x: 1400, y: 800},
-            {x: 1200, y: 1000}, {x: 0,    y: 1000},
+            {x: 1400, y: 500},  {x: 1920, y: 500},
+            {x: 1920, y: 800},  {x: 1400, y: 800},
+            {x: 1100, y: 1100}, {x: 0,    y: 1100},
         ],
         [   // Level 2
             {x: 0,    y: 400},  {x: 500,    y: 400}, 
@@ -26,3 +26,8 @@ walls =
             {x: 1700,    y: 800},
         ]
     ];
+
+    function debug(stringText)
+    /* Updates the debug element with a value given, best for supervising quickly updated values 
+       into the game, will only show the last called debug functions value */ 
+    {  document.getElementById('debug').innerHTML = stringText; }
