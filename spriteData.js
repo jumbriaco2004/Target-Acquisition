@@ -55,6 +55,31 @@ SpriteData.prototype =
         
         context.restore();
     },
+    drawButton: function() {
+        const buttonLength = 200; // Length of the button
+        const buttonThickness = 50; // Thickness of the button
+        const centerX = 1200; // X coordinate of buttons center
+        const centerY = 130; // Y coordinate of buttons center
+    
+        const startX = centerX - buttonLength / 2;
+        const startY = centerY - buttonThickness / 2;
+    
+        context.save();
+        context.fillStyle = "red";
+        context.fillRect(startX, startY, buttonLength, buttonThickness);
+    
+        context.strokeStyle = "black";
+        context.lineWidth = 2;
+        context.strokeRect(startX, startY, buttonLength, buttonThickness);
+    
+        context.fillStyle = "white";
+        context.font = "20px Arial";
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        //context.fillText("Button", centerX, centerY);
+    
+        context.restore();
+    },
 
     initializeImages: function()
     {
