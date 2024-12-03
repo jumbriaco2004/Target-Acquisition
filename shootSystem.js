@@ -97,6 +97,7 @@ ShootSystem.prototype =
                         targetAcquisition.shootSystem.shotTimer.reset();
                     }
                 }
+                targetAcquisition.shootSystem.checkButtonCollision(this.bombX, this.bombY);
             }
 
             else
@@ -150,6 +151,40 @@ ShootSystem.prototype =
         //console.log(intersectPt[0] > wallPrevX && intersectPt[0] < wallX);
         return (intersectPt[0] > wallPrevX &&
                intersectPt[0] < wallX);
+    },
+
+    checkButtonCollision: function (projectileX, projectileY) {
+        const button = spriteData.button;
+        if (
+            projectileX >= button.x &&
+            projectileX <= button.x + button.width &&
+            projectileY >= button.y &&
+            projectileY <= button.y + button.height
+        ) {
+            console.log("Button Hit");
+            this.bombIsActive = false;
+    
+            if (spriteData.door) {
+                console.log("Door Removed");
+                spriteData.deleteDoor();
+            }
+        }
+
+        //door collision
+        const door = spriteData.door;
+        if (door && 
+            projectileX >= door.x &&
+            projectileX <= door.x + door.width &&
+            projectileY >= door.y &&
+            projectileY <= door.y + door.height
+        ) {
+            console.log("Hit door");
+            this.bombIsActive = false;
+            this.bombX = 100;
+            this.bombY = 900;
+            this.shotTimer.stop(); // Stop the timer
+            this.shotTimer.reset(); // Reset the timer
+        }
     },
     
     findSlope: function(x1, y1, x2, y2)

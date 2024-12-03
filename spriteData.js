@@ -53,16 +53,27 @@ SpriteData.prototype =
         if (this.debugGridOption == true)
             { this.drawDebugGrid("red"); }
         
+        if (this.door) {
+            this.drawDoor();
+        }
         context.restore();
     },
+
     drawButton: function() {
         const buttonLength = 200; // Length of the button
         const buttonThickness = 50; // Thickness of the button
         const centerX = 1200; // X coordinate of buttons center
-        const centerY = 130; // Y coordinate of buttons center
+        const centerY = 500; // Y coordinate of buttons center (default = 130)
     
         const startX = centerX - buttonLength / 2;
         const startY = centerY - buttonThickness / 2;
+
+        this.button = {
+            x: startX,
+            y: startY,
+            width: buttonLength,
+            height: buttonThickness,
+        };
     
         context.save();
         context.fillStyle = "red";
@@ -80,6 +91,34 @@ SpriteData.prototype =
     
         context.restore();
     },
+
+    drawDoor: function() {
+        if (this.door !== null) {
+            const doorWidth = 10; // Thickness of the door
+            const doorHeight = 300; // Height of the door
+            const centerX = 1400; // X coordinate of door's center
+            const centerY = 650; // Y coordinate of door's center
+    
+            if (!this.door) {
+                this.door = {
+                    x: centerX - doorWidth / 2,
+                    y: centerY - doorHeight / 2,
+                    width: doorWidth,
+                    height: doorHeight,
+                };
+            }
+    
+            context.save();
+            context.fillStyle = "red";
+            context.fillRect(this.door.x, this.door.y, this.door.width, this.door.height);
+            context.restore();
+        }
+    },
+
+    deleteDoor: function() {
+        this.door = null;  // Set the door to null, which removes it
+    },
+    
 
     initializeImages: function()
     {
