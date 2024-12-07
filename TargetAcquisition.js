@@ -156,7 +156,7 @@ document.addEventListener('keyup', function (event) {
 
 //Press spacebar to spawn a bomb
 document.addEventListener('keydown', function (event) {
-   if (event.key === ' ') {
+   if (event.key === ' ' && !targetAcquisition.shootSystem.getBombIsActive()) {
        const playerX = playerData.playerX;
        const playerY = playerData.playerY;
        const playerWidth = targetAcquisition.playerImage.width * 0.2;

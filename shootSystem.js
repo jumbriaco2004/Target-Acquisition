@@ -64,9 +64,7 @@ ShootSystem.prototype =
             {
                 t = targetAcquisition.shootSystem.shotTimer.getElapsedTime(); // time
                 //console.log(t);
-
-                playerAngle = ((7 * Math.PI) / 4) - targetAcquisition.aimSystem.getRotationAngle(); // angle
-
+            
                 //console.log("Angle: " + playerAngle);
                 shotPrevX = this.bombX;
                 shotPrevY = this.bombY;
@@ -80,7 +78,7 @@ ShootSystem.prototype =
 
                 //console.log("x: " + this.bombX);
                 //console.log("y: " + this.bombY);
-                this.drawRay(this.bombX, this.bombY, nextX, nextY, 10, "yellow");
+                //this.drawRay(this.bombX, this.bombY, nextX, nextY, 10, "yellow");
 
                 for (i=1; i < walls[levelNum].length; ++i)
                 {
@@ -91,7 +89,7 @@ ShootSystem.prototype =
                         walls[levelNum][i].x, walls[levelNum][i].y
                     ))
                     {
-                        this.bombX = 100; this.bombY = 900;
+                        this.bombIsActive = false;
                         console.log("hit wall");
                         targetAcquisition.shootSystem.shotTimer.stop();
                         targetAcquisition.shootSystem.shotTimer.reset();
@@ -102,12 +100,17 @@ ShootSystem.prototype =
 
             else
             {
-                this.bombX = 100; this.bombY = 900;
+                this.bombIsActive = false;
                 console.log("hit border");
                 targetAcquisition.shootSystem.shotTimer.stop();
                 targetAcquisition.shootSystem.shotTimer.reset();
             }
         }
+        if (this.bombIsActive == false)
+        {
+             playerAngle = ((7 * Math.PI) / 4) - targetAcquisition.aimSystem.getRotationAngle(); // angle
+            //this.bombIsActive = true;
+        };
     },
 
     drawRay: function(x1, y1, x2, y2, rayWidth, rayColor)
@@ -127,30 +130,40 @@ ShootSystem.prototype =
                          wallPrevX, wallPrevY, wallX, wallY)
     {
         let intersectPt = [0, 0];
-        //w1 = wallX - shotX;
-        //h1 = wallY - shotY;
-
-        
+        console.log(shotPrevX + ", " + shotX);
         if (shotPrevX == shotX || shotPrevY == shotY)  
             { return; }
 
         shotSlope = this.findSlope(shotPrevX, shotPrevY, shotX, shotY);
         wallSlope = this.findSlope(wallPrevX, wallPrevY, wallX, wallY);
-
+    //console.log(shotSlope * (180/Math.PI));
         shotYInt = this.findYInt(shotX, shotY, shotSlope);
         wallYInt = this.findYInt(wallX, wallY, wallSlope);
 
         intersectPt[0] = (wallYInt - shotYInt) / (shotSlope - wallSlope);
         intersectPt[1] = (shotSlope * intersectPt[0]) + shotYInt;
 
-        //console.log(intersectPt[0] + ", " + intersectPt[1]);
+    console.log(shotX + ", " + shotY + ", " + shotSlope + ", " + shotYInt + ", " + intersectPt[0] + ", " + intersectPt[1]);
+    //console.log(intersectPt[0] + ", " + intersectPt[1]);
 
-        this.drawRay(this.bombX, this.bombY, intersectPt[0], intersectPt[1], 5, "red"); // Bomb laser
+        this.drawRay(shotPrevX, shotPrevY, intersectPt[0], intersectPt[1], 5, "red"); // Bomb laser
         this.drawRay(wallPrevX, wallPrevY, wallX, wallY, 10, "green");                  // Wall lines
 
-        //console.log(intersectPt[0] > wallPrevX && intersectPt[0] < wallX);
-        return (intersectPt[0] > wallPrevX &&
-               intersectPt[0] < wallX);
+    //console.log(intersectPt[0] > wallPrevX && intersectPt[0] < wallX);
+        return (((intersectPt[0] > wallPrevX && intersectPt[0] < wallX) 
+                ||
+                (intersectPt[0] < wallPrevX && intersectPt[0] > wallX))
+                &&
+                ((intersectPt[1] > wallPrevY && intersectPt[1] < wallY) 
+                ||
+                (intersectPt[1] < wallPrevY && intersectPt[1] > wallY))
+            );
+        
+    },
+
+    getBombIsActive: function()
+    {
+        return this.bombIsActive;
     },
 
     checkButtonCollision: function (projectileX, projectileY) {
@@ -198,4 +211,5 @@ ShootSystem.prototype =
         let b = y - (m*x);
         return b;
     },
+
 }
