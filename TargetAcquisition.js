@@ -88,7 +88,6 @@ TargetAcquisition.prototype =
    calculateFps: function (now) 
    {
       var fps = 1 / (now - this.lastAnimationFrameTime) * 1000;
-
       lastAnimationFrameTime = now;
       return fps;
    },

@@ -78,7 +78,7 @@ ShootSystem.prototype =
 
                 //console.log("x: " + this.bombX);
                 //console.log("y: " + this.bombY);
-                //this.drawRay(this.bombX, this.bombY, nextX, nextY, 10, "yellow");
+                this.drawRay(this.bombX, this.bombY, nextX, nextY, 10, "yellow");
 
                 for (i=1; i < walls[levelNum].length; ++i)
                 {
@@ -89,7 +89,7 @@ ShootSystem.prototype =
                         walls[levelNum][i].x, walls[levelNum][i].y
                     ))
                     {
-                        this.bombIsActive = false;
+                         this.bombIsActive = false;
                         console.log("hit wall");
                         targetAcquisition.shootSystem.shotTimer.stop();
                         targetAcquisition.shootSystem.shotTimer.reset();
@@ -129,36 +129,53 @@ ShootSystem.prototype =
     didCollide: function(shotPrevX, shotPrevY, shotX, shotY, 
                          wallPrevX, wallPrevY, wallX, wallY)
     {
+        finVal = 25; // finess value, helps with detection
+        if
+        (
+            ((wallPrevX - finVal <= shotX && shotX <= wallX + finVal) 
+            ||
+            (wallX - finVal <= shotX && shotX <= wallPrevX + finVal))
+            &&
+            (( wallPrevY - finVal <= shotY && shotY <= wallY + finVal) 
+            ||
+            (wallY - finVal <= shotY && shotY <= wallPrevY + finVal))
+        )
+        {
+        console.log("hit possible");
+
         let intersectPt = [0, 0];
-        console.log(shotPrevX + ", " + shotX);
+        //console.log(shotPrevX + ", " + shotX);
         if (shotPrevX == shotX || shotPrevY == shotY)  
             { return; }
 
         shotSlope = this.findSlope(shotPrevX, shotPrevY, shotX, shotY);
         wallSlope = this.findSlope(wallPrevX, wallPrevY, wallX, wallY);
-    //console.log(shotSlope * (180/Math.PI));
+        //console.log(shotSlope * (180/Math.PI));
+
         shotYInt = this.findYInt(shotX, shotY, shotSlope);
         wallYInt = this.findYInt(wallX, wallY, wallSlope);
 
         intersectPt[0] = (wallYInt - shotYInt) / (shotSlope - wallSlope);
         intersectPt[1] = (shotSlope * intersectPt[0]) + shotYInt;
 
-    console.log(shotX + ", " + shotY + ", " + shotSlope + ", " + shotYInt + ", " + intersectPt[0] + ", " + intersectPt[1]);
-    //console.log(intersectPt[0] + ", " + intersectPt[1]);
+        //console.log(shotX + ", " + shotY + ", " + shotSlope + ", " + shotYInt + ", " + intersectPt[0] + ", " + intersectPt[1]);
+        console.log(intersectPt[0] + ", " + intersectPt[1]);
 
-        this.drawRay(shotPrevX, shotPrevY, intersectPt[0], intersectPt[1], 5, "red"); // Bomb laser
-        this.drawRay(wallPrevX, wallPrevY, wallX, wallY, 10, "green");                  // Wall lines
+        //this.drawRay(shotPrevX, shotPrevY, intersectPt[0], intersectPt[1], 5, "red"); // Bomb laser
+        //this.drawRay(wallPrevX, wallPrevY, wallX, wallY, 10, "green");                  // Wall lines
 
-    //console.log(intersectPt[0] > wallPrevX && intersectPt[0] < wallX);
-        return (((intersectPt[0] > wallPrevX && intersectPt[0] < wallX) 
+        //console.log(intersectPt[0] > wallPrevX && intersectPt[0] < wallX);
+        return (((intersectPt[0] >= wallPrevX - finVal && intersectPt[0] <= wallX + finVal) 
                 ||
-                (intersectPt[0] < wallPrevX && intersectPt[0] > wallX))
+                (intersectPt[0] <= wallPrevX + finVal && intersectPt[0] >= wallX - finVal))
                 &&
-                ((intersectPt[1] > wallPrevY && intersectPt[1] < wallY) 
+                ((intersectPt[1] >= wallPrevY - finVal && intersectPt[1] <= wallY + finVal) 
                 ||
-                (intersectPt[1] < wallPrevY && intersectPt[1] > wallY))
+                (intersectPt[1] <= wallPrevY + finVal && intersectPt[1] >= wallY) - finVal)
             );
-        
+        }
+
+        else {return;}
     },
 
     getBombIsActive: function()
