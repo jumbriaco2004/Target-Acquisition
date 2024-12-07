@@ -66,7 +66,6 @@ TargetAcquisition.prototype =
       spriteData.drawButton();
       spriteData.drawDoor();
 
-
       this.shootSystem.drawBomb(now);
       this.shootSystem.moveBomb(now);
       

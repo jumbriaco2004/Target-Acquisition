@@ -79,11 +79,16 @@ ShootSystem.prototype =
 
                 //console.log("x: " + this.bombX);
                 //console.log("y: " + this.bombY);
-                this.drawRay(this.bombX, this.bombY, nextX, nextY, 10, "yellow");
+                this.drawRay(this.bombX, this.bombY, nextX, nextY, 5, "yellow");
 
                 for (i=1; i < walls[levelNum].length; ++i)
                 {
-                    //console.log(this.bounceCooldown.getElapsedTime());
+                    if (this.bounceCooldown.getElapsedTime() > 250)
+                    {
+                        this.bounceCooldown.stop();
+                        this.bounceCooldown.reset();
+                    }
+
                     if (this.didCollide
                     (
                         shotPrevX, shotPrevY, this.bombX, this.bombY,
@@ -92,24 +97,25 @@ ShootSystem.prototype =
                     ))
                     {
                         if ((walls[levelNum][i].bounce) && (this.bounceCooldown.getElapsedTime() > 250
-                            || this.bounceCooldown.getElapsedTime() == 0 || this.bounceCooldown.getElapsedTime() === undefined))
+                            || this.bounceCooldown.getElapsedTime() == 0 
+                            || this.bounceCooldown.getElapsedTime() === undefined)) // Hit pink surface
                         {
+                            //console.log(this.bounceCooldown.getElapsedTime());
                             console.log("hit bouncy/pink wall");
                             this.bounceCooldown.start();
-                            playerAngle = walls[levelNum][i].bounce;
-                            
+                            playerAngle = walls[levelNum][i].bounce + (playerAngle / 5.5); //angle bounce fine tuning
+                        }
+                        else if (this.bounceCooldown.getElapsedTime() < 250)
+                        {
+                            //console.log("bounce on cooldown: " + this.bounceCooldown.getElapsedTime())
                         }
                         else
                         {
+                            //console.log(this.bounceCooldown.getElapsedTime());
                             console.log("hit wall");
                             this.bombIsActive = false;
                             targetAcquisition.shootSystem.shotTimer.stop();
                             targetAcquisition.shootSystem.shotTimer.reset();
-                            if (this.bounceCooldown.getElapsedTime() > 250)
-                            {
-                                this.bounceCooldown.stop();
-                                this.bounceCooldown.reset();
-                            }
                         }
                     }
                 }
@@ -147,7 +153,7 @@ ShootSystem.prototype =
     didCollide: function(shotPrevX, shotPrevY, shotX, shotY, 
                          wallPrevX, wallPrevY, wallX, wallY)
     {
-        finVal = 25; // finess value, helps with detection
+        finVal = 35; // finess value, helps with detection
         if
         (
             ((wallPrevX - finVal <= shotX && shotX <= wallX + finVal) 

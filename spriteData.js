@@ -31,6 +31,8 @@ SpriteData.prototype =
         {
             if (walls[levelNum][i].skip == true)
             {
+                context.strokeStyle = "black";
+                context.strokeWidth = 11;
                 context.moveTo(walls[levelNum][i].x, walls[levelNum][i].y);
             }
 
@@ -46,7 +48,9 @@ SpriteData.prototype =
             }
             else if (walls[levelNum][i].bounce)
             {
+                
                 context.strokeStyle = "pink";
+                context.moveTo(walls[levelNum][i - 1].x, walls[levelNum][i - 1].y);
                 context.lineTo(walls[levelNum][i].x, walls[levelNum][i].y);
                 context.stroke();
             }
@@ -70,7 +74,7 @@ SpriteData.prototype =
         const buttonLength = 200; // Length of the button
         const buttonThickness = 50; // Thickness of the button
         const centerX = 1200; // X coordinate of buttons center
-        const centerY = 500; // Y coordinate of buttons center (default = 130)
+        const centerY = 300; // Y coordinate of buttons center (default = 130)
     
         const startX = centerX - buttonLength / 2;
         const startY = centerY - buttonThickness / 2;

@@ -1,7 +1,7 @@
 var AimSystem = function () //Constructor
 {
-    this.rotationAngle = 0;
-    this.rotationSpeed = 0.05
+    this.rotationAngle = Math.PI;
+    this.rotationSpeed = 0.03;
     this.rotatingDirection = null;
 };
 
