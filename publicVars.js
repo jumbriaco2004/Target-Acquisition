@@ -9,8 +9,8 @@ walls =
             {x: 0,    y: 200},  {x: 502,  y: 201}, 
             {x: 500,  y: 500},  {x: 1000, y: 501}, 
             {x: 1000, y: 100},  {x: 1401, y: 99 }, 
-            {x: 1400, y: 500},  {x: 1920, y: 501},
-            {x: 1920, y: 800},  
+            {x: 1400, y: 500},  {x: 1895, y: 501},
+            {x: 1896, y: 800, end: true},  
             {x: 1400, y: 801, bounce: 180}, {x: 1350, y: 850, bounce: 180},   // diagonal
             {x: 1300, y: 900, bounce: 180}, {x: 1250, y: 950, bounce: 180},   // diagonal
             {x: 1200, y: 1000, bounce: 180}, {x: 1150, y: 1050, bounce: 180}, // diagonal
@@ -29,10 +29,11 @@ walls =
             {x: 915, y: 0, bounce: 325}, {x: canvas.width, y: 1},
             {x: canvas.width, y: 601},
             {x: 1700, y: 600},
-            {x: canvas.width, y: 601},
-            {x: canvas.width, y: 901},
+            {x: canvas.width - 15, y: 601},
+            {x: canvas.width - 16, y: 901, end: true},
             {x: 1700, y: 900},
-        ]
+        ],
+        [] //level 3 placeholder
 
     ];
 

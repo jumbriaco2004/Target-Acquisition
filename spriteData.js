@@ -105,7 +105,7 @@ SpriteData.prototype =
 
     drawDoor: function() {
         if (this.door !== null) {
-            const doorWidth = 10; // Thickness of the door
+            const doorWidth = 15; // Thickness of the door
             const doorHeight = 300; // Height of the door
             const centerX = 1400; // X coordinate of door's center
             const centerY = 650; // Y coordinate of door's center

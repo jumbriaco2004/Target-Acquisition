@@ -96,7 +96,13 @@ ShootSystem.prototype =
                         walls[levelNum][i].x, walls[levelNum][i].y
                     ) == true)
                     {
-                        if ((walls[levelNum][i].bounce) && (this.bounceCooldown.getElapsedTime() > 60
+                        if (walls[levelNum][i].end === true) //check if level changing wall was hit
+                        {
+                            levelNum++;
+                            targetAcquisition.setLevelNumber(levelNum);
+                            console.log("level switch hit " + levelNum);
+                        }
+                        else if ((walls[levelNum][i].bounce) && (this.bounceCooldown.getElapsedTime() > 60
                             || this.bounceCooldown.getElapsedTime() == 0 
                             || this.bounceCooldown.getElapsedTime() === undefined)) // Hit pink surface
                         {
