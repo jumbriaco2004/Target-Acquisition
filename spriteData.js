@@ -26,7 +26,6 @@ SpriteData.prototype =
     {
         context.save();
         context.beginPath();
-        context.strokeStyle = "black";
         context.lineWidth = this.wallThick;
         for (var i=0; i < walls[levelNum].length; ++i) // for each coordinate set
         {
@@ -35,8 +34,9 @@ SpriteData.prototype =
                 context.moveTo(walls[levelNum][i].x, walls[levelNum][i].y);
             }
 
-            if (walls[levelNum][i].ellipse) //if the wall coords have a ellipse in it
+            else if (walls[levelNum][i].ellipse) //if the wall coords have a ellipse in it
             {
+                context.strokeStyle = "black";
                 context.ellipse(
                     walls[levelNum][i].x,  walls[levelNum][i].y,
                     walls[levelNum][i].rx, walls[levelNum][i].ry, walls[levelNum][i].rot, 
@@ -44,8 +44,15 @@ SpriteData.prototype =
                 )
                 context.stroke();
             }
+            else if (walls[levelNum][i].bounce)
+            {
+                context.strokeStyle = "pink";
+                context.lineTo(walls[levelNum][i].x, walls[levelNum][i].y);
+                context.stroke();
+            }
             else
             {
+                context.strokeStyle = "black";
                 context.lineTo(walls[levelNum][i].x, walls[levelNum][i].y);
                 context.stroke();
             }
@@ -131,14 +138,3 @@ SpriteData.prototype =
         return walls;
     }
 }
-
-var Projectile = function() // Projectile constructor
-{
-
-}
-
-Projectile.prototype = 
-{
-    
-}
-

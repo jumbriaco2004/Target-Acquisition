@@ -6,6 +6,7 @@ var ShootSystem = function () // Constructor
     this.bombIsActive = false;  //is the bomb active
 
     this.shotTimer = new Stopwatch();  
+    this.bounceCooldown = new Stopwatch();
 };
 
 ShootSystem.prototype = 
@@ -82,6 +83,7 @@ ShootSystem.prototype =
 
                 for (i=1; i < walls[levelNum].length; ++i)
                 {
+                    //console.log(this.bounceCooldown.getElapsedTime());
                     if (this.didCollide
                     (
                         shotPrevX, shotPrevY, this.bombX, this.bombY,
@@ -89,10 +91,26 @@ ShootSystem.prototype =
                         walls[levelNum][i].x, walls[levelNum][i].y
                     ))
                     {
-                         this.bombIsActive = false;
-                        console.log("hit wall");
-                        targetAcquisition.shootSystem.shotTimer.stop();
-                        targetAcquisition.shootSystem.shotTimer.reset();
+                        if ((walls[levelNum][i].bounce) && (this.bounceCooldown.getElapsedTime() > 250
+                            || this.bounceCooldown.getElapsedTime() == 0 || this.bounceCooldown.getElapsedTime() === undefined))
+                        {
+                            console.log("hit bouncy/pink wall");
+                            this.bounceCooldown.start();
+                            playerAngle = walls[levelNum][i].bounce;
+                            
+                        }
+                        else
+                        {
+                            console.log("hit wall");
+                            this.bombIsActive = false;
+                            targetAcquisition.shootSystem.shotTimer.stop();
+                            targetAcquisition.shootSystem.shotTimer.reset();
+                            if (this.bounceCooldown.getElapsedTime() > 250)
+                            {
+                                this.bounceCooldown.stop();
+                                this.bounceCooldown.reset();
+                            }
+                        }
                     }
                 }
                 targetAcquisition.shootSystem.checkButtonCollision(this.bombX, this.bombY);
@@ -141,7 +159,7 @@ ShootSystem.prototype =
             (wallY - finVal <= shotY && shotY <= wallPrevY + finVal))
         )
         {
-        console.log("hit possible");
+        //console.log("hit possible");
 
         let intersectPt = [0, 0];
         //console.log(shotPrevX + ", " + shotX);
@@ -159,7 +177,7 @@ ShootSystem.prototype =
         intersectPt[1] = (shotSlope * intersectPt[0]) + shotYInt;
 
         //console.log(shotX + ", " + shotY + ", " + shotSlope + ", " + shotYInt + ", " + intersectPt[0] + ", " + intersectPt[1]);
-        console.log(intersectPt[0] + ", " + intersectPt[1]);
+        //console.log(intersectPt[0] + ", " + intersectPt[1]);
 
         //this.drawRay(shotPrevX, shotPrevY, intersectPt[0], intersectPt[1], 5, "red"); // Bomb laser
         //this.drawRay(wallPrevX, wallPrevY, wallX, wallY, 10, "green");                  // Wall lines
