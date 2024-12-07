@@ -129,7 +129,6 @@ SpriteData.prototype =
     deleteDoor: function() {
         this.door = null;  // Set the door to null, which removes it
     },
-    
 
     initializeImages: function()
     {

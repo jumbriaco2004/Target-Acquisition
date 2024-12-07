@@ -1,7 +1,7 @@
 canvas = document.getElementById('game-canvas'); // public so that everything can use these variables
 context = canvas.getContext('2d');
 spritesheet = new Image();
-bounceA = 180 * (Math.PI/180); // bounce angle of the first bounce surface seen in level one
+
 walls = 
     [
         [   // Level 1
@@ -11,25 +11,29 @@ walls =
             {x: 1000, y: 100},  {x: 1401, y: 99 }, 
             {x: 1400, y: 500},  {x: 1920, y: 501},
             {x: 1920, y: 800},  
-            {x: 1400, y: 801, bounce: bounceA}, {x: 1350, y: 850, bounce: bounceA},   // diagonal
-            {x: 1300, y: 900, bounce: bounceA}, {x: 1250, y: 950, bounce: bounceA},   // diagonal
-            {x: 1200, y: 1000, bounce: bounceA}, {x: 1150, y: 1050, bounce: bounceA}, // diagonal
+            {x: 1400, y: 801, bounce: 180}, {x: 1350, y: 850, bounce: 180},   // diagonal
+            {x: 1300, y: 900, bounce: 180}, {x: 1250, y: 950, bounce: 180},   // diagonal
+            {x: 1200, y: 1000, bounce: 180}, {x: 1150, y: 1050, bounce: 180}, // diagonal
             {x: 1100, y: 1100},
             {x: 0,    y: 1101},
         ],
-        [   // Level 2
-            {x: 0,    y: 401},  {x: 500,    y: 400}, 
-            {x: 500,  y: 301},  
-            {x: 900,  y: 0, skip: true},                         // Skip stroke / pen up
-            {x: 900,  y: 400},
-            {x: 1400, y: 401}, 
-            {x: 900,  y: 400, rx: 500, ry: 200, rot: 0, sA: 0,   // ellipse
-                eA: -Math.PI/2, ellipse: true}, 
-            {x: canvas.width, y: 601, skip: true},
-            {x: 1700,    y: 600},
-            {x: canvas.width, y: 801, skip: true},
-            {x: 1700,    y: 800},
+        [   // Level 2 - redone
+            {x: 0, y: 415},  {x: 500, y: 416},
+            {x: 501, y: 385},  {x: 0, y: 386},
+            {x: 0, y: 15}, 
+            {x: 885, y: 15, bounce: 335},
+            {x: 884, y: 200, bounce: 235},
+            {x: 885, y: 400, bounce: 235},
+            {x: 1200, y: 402},
+            {x: 1201, y: 200}, {x: 915, y: 202}, 
+            {x: 915, y: 0, bounce: 325}, {x: canvas.width, y: 1},
+            {x: canvas.width, y: 601},
+            {x: 1700, y: 600},
+            {x: canvas.width, y: 601},
+            {x: canvas.width, y: 901},
+            {x: 1700, y: 900},
         ]
+
     ];
 
     function debug(stringText)

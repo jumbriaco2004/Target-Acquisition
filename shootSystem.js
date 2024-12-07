@@ -94,20 +94,20 @@ ShootSystem.prototype =
                         shotPrevX, shotPrevY, this.bombX, this.bombY,
                         walls[levelNum][i - 1].x, walls[levelNum][i - 1].y,
                         walls[levelNum][i].x, walls[levelNum][i].y
-                    ))
+                    ) == true)
                     {
-                        if ((walls[levelNum][i].bounce) && (this.bounceCooldown.getElapsedTime() > 250
+                        if ((walls[levelNum][i].bounce) && (this.bounceCooldown.getElapsedTime() > 60
                             || this.bounceCooldown.getElapsedTime() == 0 
                             || this.bounceCooldown.getElapsedTime() === undefined)) // Hit pink surface
                         {
                             //console.log(this.bounceCooldown.getElapsedTime());
                             console.log("hit bouncy/pink wall");
                             this.bounceCooldown.start();
-                            playerAngle = walls[levelNum][i].bounce + (playerAngle / 5.5); //angle bounce fine tuning
+                            playerAngle = (walls[levelNum][i].bounce * (Math.PI/180)) - (playerAngle / 6.5); //angle bounce fine tuning
                         }
-                        else if (this.bounceCooldown.getElapsedTime() < 250)
+                        else if ((walls[levelNum][i].bounce) && (this.bounceCooldown.getElapsedTime() < 60))
                         {
-                            //console.log("bounce on cooldown: " + this.bounceCooldown.getElapsedTime())
+                            console.log("bounce on cooldown: " + this.bounceCooldown.getElapsedTime())
                         }
                         else
                         {
@@ -195,7 +195,7 @@ ShootSystem.prototype =
                 &&
                 ((intersectPt[1] >= wallPrevY - finVal && intersectPt[1] <= wallY + finVal) 
                 ||
-                (intersectPt[1] <= wallPrevY + finVal && intersectPt[1] >= wallY) - finVal)
+                (intersectPt[1] <= wallPrevY + finVal && intersectPt[1] >= wallY - finVal))
             );
         }
 
