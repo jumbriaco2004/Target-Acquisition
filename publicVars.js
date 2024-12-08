@@ -9,8 +9,8 @@ walls =
             {x: 0,    y: 200},  {x: 502,  y: 201}, 
             {x: 500,  y: 500},  {x: 1000, y: 501}, 
             {x: 1000, y: 100},  {x: 1401, y: 99 }, 
-            {x: 1400, y: 500},  {x: 1895, y: 501},
-            {x: 1896, y: 800, end: true},  
+            {x: 1400, y: 500},  {x: canvas.width - 49, y: 501},
+            {x: canvas.width - 50, y: 800, end: true},  
             {x: 1400, y: 801, bounce: 180}, {x: 1350, y: 850, bounce: 180},   // diagonal
             {x: 1300, y: 900, bounce: 180}, {x: 1250, y: 950, bounce: 180},   // diagonal
             {x: 1200, y: 1000, bounce: 180}, {x: 1150, y: 1050, bounce: 180}, // diagonal
@@ -33,8 +33,14 @@ walls =
             {x: canvas.width - 16, y: 901, end: true},
             {x: 1700, y: 900},
         ],
-        [] //level 3 placeholder
-
+        [
+            {x: 20, y: 20, bounce: 1},
+            {x: 20, y: 20, bounce: 1},
+            {x: canvas.width - 20, y: 19, bounce: 1},
+            {x: canvas.width - 19, y: canvas.height - 20, bounce: 270},
+            {x: 19, y: canvas.height - 19, bounce: 180},
+            {x: 20, y: 20, bounce: 90},
+        ] //end screen
     ];
 
     function debug(stringText)

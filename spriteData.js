@@ -27,7 +27,7 @@ SpriteData.prototype =
         context.save();
         context.beginPath();
         context.lineWidth = this.wallThick;
-        for (var i=0; i < walls[levelNum].length; ++i) // for each coordinate set
+        for (var i=1; i < walls[levelNum].length; ++i) // for each coordinate set
         {
             if (walls[levelNum][i].skip == true)
             {
@@ -48,7 +48,6 @@ SpriteData.prototype =
             }
             else if (walls[levelNum][i].bounce)
             {
-                
                 context.strokeStyle = "pink";
                 context.moveTo(walls[levelNum][i - 1].x, walls[levelNum][i - 1].y);
                 context.lineTo(walls[levelNum][i].x, walls[levelNum][i].y);

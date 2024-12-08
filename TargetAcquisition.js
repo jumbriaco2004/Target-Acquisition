@@ -26,7 +26,6 @@ var TargetAcquisition = function () //Constructor
 
 TargetAcquisition.prototype =
 {
-  
 
    initializeImages: function ()
    /* Sets the background and the images to certain urls in order to initialize the value of every image used
@@ -71,7 +70,7 @@ TargetAcquisition.prototype =
          spriteData.deleteDoor();
          spriteData.drawButton2();
          spriteData.drawDoor2();
-      }
+      } else {}
       this.shootSystem.drawBomb(now);
       this.shootSystem.moveBomb(now);
       

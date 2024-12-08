@@ -66,7 +66,7 @@ ShootSystem.prototype =
                 t = targetAcquisition.shootSystem.shotTimer.getElapsedTime(); // time
                 //console.log(t);
             
-                //console.log("Angle: " + playerAngle);
+                console.log("Angle: " + playerAngle * (180/Math.PI));
                 shotPrevX = this.bombX;
                 shotPrevY = this.bombY;
                 
@@ -98,6 +98,7 @@ ShootSystem.prototype =
                     {
                         if (walls[levelNum][i].end === true) //check if level changing wall was hit
                         {
+                            this.bombIsActive = false;
                             levelNum++;
                             targetAcquisition.setLevelNumber(levelNum);
                             console.log("level switch hit " + levelNum);
@@ -125,7 +126,7 @@ ShootSystem.prototype =
                         }
                     }
                 }
-                targetAcquisition.shootSystem.checkButtonCollision(this.bombX, this.bombY);
+                targetAcquisition.shootSystem.checkButtonCollision(this.bombX, this.bombY, targetAcquisition.getLevelNumber());
             }
 
             else
@@ -213,15 +214,16 @@ ShootSystem.prototype =
         return this.bombIsActive;
     },
 
-    checkButtonCollision: function (projectileX, projectileY) {
+    checkButtonCollision: function (projectileX, projectileY, levelNum) {
         const button = spriteData.button;
         
         // Check if the bomb hits button1
         if (
-            projectileX >= button.x &&
+            (projectileX >= button.x &&
             projectileX <= button.x + button.width &&
             projectileY >= button.y &&
-            projectileY <= button.y + button.height
+            projectileY <= button.y + button.height) 
+            && (levelNum === 0)
         ) {
             console.log("Button1 Hit");
             this.bombIsActive = false;
@@ -255,10 +257,11 @@ ShootSystem.prototype =
     if (button2) {
         
         if (
-            projectileX >= button2.x &&
+            (projectileX >= button2.x &&
             projectileX <= button2.x + button2.width &&
             projectileY >= button2.y &&
-            projectileY <= button2.y + button2.height
+            projectileY <= button2.y + button2.height)
+            && (levelNum === 1)
         ) {
             console.log("Button2 Hit");
             this.bombIsActive = false;
