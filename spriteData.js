@@ -105,8 +105,8 @@ SpriteData.prototype =
 
     drawDoor: function() {
         if (this.door !== null) {
-            const doorWidth = 15; // Thickness of the door
-            const doorHeight = 300; // Height of the door
+            const doorWidth = 15;
+            const doorHeight = 300;
             const centerX = 1400; // X coordinate of door's center
             const centerY = 650; // Y coordinate of door's center
     
@@ -128,6 +128,66 @@ SpriteData.prototype =
 
     deleteDoor: function() {
         this.door = null;  // Set the door to null, which removes it
+    },
+
+    drawButton2: function () {
+        const buttonWidth = 200;
+        const buttonHeight = 50;
+        const centerX = 200; // X coordinate of the button's center 200
+        const centerY = 352; // Y coordinate of the button's center 352
+    
+        const startX = centerX - buttonWidth / 2;
+        const startY = centerY - buttonHeight / 2;
+    
+        this.button2 = {
+            x: startX,
+            y: startY,
+            width: buttonWidth,
+            height: buttonHeight,
+        };
+    
+        context.save();
+        context.fillStyle = "green";
+        context.fillRect(startX, startY, buttonWidth, buttonHeight);
+    
+        context.strokeStyle = "black";
+        context.lineWidth = 2;
+        context.strokeRect(startX, startY, buttonWidth, buttonHeight);
+    
+        context.fillStyle = "white";
+        context.font = "20px Arial";
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        //context.fillText("Win", centerX, centerY);
+    
+        context.restore();
+    },
+
+    drawDoor2: function() {
+        if (this.door2 !== null) {
+            const doorWidth = 15;
+            const doorHeight = 300;
+            const centerX = 1700; // X coordinate of door's center
+            const centerY = 750; // Y coordinate of door's center
+    
+            if (!this.door2) {
+                this.door2 = {
+                    x: centerX - doorWidth / 2,
+                    y: centerY - doorHeight / 2,
+                    width: doorWidth,
+                    height: doorHeight,
+                };
+            }
+    
+            context.save();
+            context.fillStyle = "green";
+            context.fillRect(this.door2.x, this.door2.y, this.door2.width, this.door2.height);
+            context.restore();
+        }
+    },
+    
+    deleteDoor2: function() {
+        this.door2 = null;  // Set the door2 to null, which removes it
     },
 
     initializeImages: function()

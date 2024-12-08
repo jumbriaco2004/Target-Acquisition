@@ -63,9 +63,15 @@ TargetAcquisition.prototype =
       this.drawRotatedPlayer(playerX, playerY, rotationAngle);
 
       spriteData.drawWalls(this.levelNum); //number references which level to draw
-      spriteData.drawButton();
-      spriteData.drawDoor();
 
+      if (this.levelNum === 0) {
+         spriteData.drawButton();
+         spriteData.drawDoor();
+      } else if (this.levelNum === 1) {
+         spriteData.deleteDoor();
+         spriteData.drawButton2();
+         spriteData.drawDoor2();
+      }
       this.shootSystem.drawBomb(now);
       this.shootSystem.moveBomb(now);
       

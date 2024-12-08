@@ -215,13 +215,15 @@ ShootSystem.prototype =
 
     checkButtonCollision: function (projectileX, projectileY) {
         const button = spriteData.button;
+        
+        // Check if the bomb hits button1
         if (
             projectileX >= button.x &&
             projectileX <= button.x + button.width &&
             projectileY >= button.y &&
             projectileY <= button.y + button.height
         ) {
-            console.log("Button Hit");
+            console.log("Button1 Hit");
             this.bombIsActive = false;
     
             if (spriteData.door) {
@@ -229,8 +231,8 @@ ShootSystem.prototype =
                 spriteData.deleteDoor();
             }
         }
-
-        //door collision
+    
+        // Check if the bomb hits the door (door1)
         const door = spriteData.door;
         if (door && 
             projectileX >= door.x &&
@@ -239,6 +241,46 @@ ShootSystem.prototype =
             projectileY <= door.y + door.height
         ) {
             console.log("Hit door");
+            this.bombIsActive = false;
+            this.bombX = 100;
+            this.bombY = 900;
+            this.shotTimer.stop(); // Stop the timer
+            this.shotTimer.reset(); // Reset the timer
+        }
+
+        
+    
+        // Check if the bomb hits button2
+    const button2 = spriteData.button2;
+    if (button2) {
+        
+        if (
+            projectileX >= button2.x &&
+            projectileX <= button2.x + button2.width &&
+            projectileY >= button2.y &&
+            projectileY <= button2.y + button2.height
+        ) {
+            console.log("Button2 Hit");
+            this.bombIsActive = false;
+
+            // Check if door2 exists and remove it
+            const door2 = spriteData.door2;
+            if (door2) {
+                console.log("Door2 Removed");
+                spriteData.deleteDoor2();
+            }
+        }
+    }
+    
+        // Check if the bomb hits the door (door2)
+        const door2 = spriteData.door2;
+        if (door2 && 
+            projectileX >= door2.x &&
+            projectileX <= door2.x + door2.width &&
+            projectileY >= door2.y &&
+            projectileY <= door2.y + door2.height
+        ) {
+            console.log("Hit door2");
             this.bombIsActive = false;
             this.bombX = 100;
             this.bombY = 900;
@@ -258,5 +300,4 @@ ShootSystem.prototype =
         let b = y - (m*x);
         return b;
     },
-
 }
