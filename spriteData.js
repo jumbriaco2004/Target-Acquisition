@@ -4,7 +4,7 @@
 */
 var SpriteData = function()
 {
-    this.debugGridOption = true;
+    this.debugGridOption = false;
     this.wallThick = 15; // Wall thickness
 
     this.spritesheet = new Image();

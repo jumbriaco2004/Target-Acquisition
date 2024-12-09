@@ -79,7 +79,7 @@ ShootSystem.prototype =
 
                 //console.log("x: " + this.bombX);
                 //console.log("y: " + this.bombY);
-                this.drawRay(this.bombX, this.bombY, nextX, nextY, 5, "yellow");
+                //this.drawRay(this.bombX, this.bombY, nextX, nextY, 5, "yellow");
 
                 for (i=1; i < walls[levelNum].length; ++i)
                 {
