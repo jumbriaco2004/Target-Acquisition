@@ -139,7 +139,7 @@ document.addEventListener('keydown', function (event) {
        //console.log('E pressed');
        targetAcquisition.aimSystem.startRotation('clockwise');
    }
-   if (event.key === '1') //changes levels for debugging, REMOVE LATER
+   /*if (event.key === '1') //changes levels for debugging, REMOVE LATER
    {
       console.log('1 pressed');
       targetAcquisition.setLevelNumber(0);
@@ -148,7 +148,7 @@ document.addEventListener('keydown', function (event) {
    {
       console.log('2 pressed');
       targetAcquisition.setLevelNumber(1);
-   }
+   }*/
 });
 
 document.addEventListener('keyup', function (event) {
