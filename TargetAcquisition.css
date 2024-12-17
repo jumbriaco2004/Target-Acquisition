@@ -103,3 +103,12 @@ body
     display: inline;
     text-shadow: 1px 1px 1px blue;
  }
+
+ #controls 
+ {
+   border-radius: 5px;
+   background-color: lightgray;
+   border: black;
+   text-align: center;
+   
+ }
